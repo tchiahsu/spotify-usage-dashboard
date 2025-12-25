@@ -7,16 +7,15 @@ All See more is a link to a new page with full list
 See Playlists (can click to see all songs in playlist, and get recommendations should show a small drop down)
 */
 // authRoutes.ts
-import express from 'express';
+import { Router } from "express";
 import crypto from "crypto";
-import cookieParser from "cookie-parser";
 
-const app = express();
-app.use(cookieParser());
+const router = Router();
 
 const CLIENT_ID = process.env.CLIENT_ID!;
 const CLIENT_SECRET = process.env.CLIENT_SECRET!;
 const REDIRECT_URI = process.env.REDIRECT_URI!; // e.g. http://localhost:8888/auth/callback
+const FRONTEND_ORIGIN = process.env.FRONTEND_ORIGIN ?? "http://127.0.0.1:5173";
 
 const SCOPES = [
   "user-read-private",
@@ -33,7 +32,11 @@ function generateRandomString(bytes: number) {
   return crypto.randomBytes(bytes).toString("hex");
 }
 
-app.get("/login", (req, res) => {
+/**
+ * GET /auth/login
+ * Redirect user to Spotfiy authorization page
+ */
+router.get("/login", (req, res) => {
   const state = generateRandomString(16);
 
   res.cookie("spotify_auth_state", state, {
@@ -54,20 +57,22 @@ app.get("/login", (req, res) => {
   res.redirect(`https://accounts.spotify.com/authorize?${params.toString()}`);
 });
 
-app.get("/callback", async (req, res) => {
+/**
+ * GET /auth/callback
+ * Exchange authorization code for access tokens
+ */
+router.get("/callback", async (req, res) => {
   const code = typeof req.query.code === "string" ? req.query.code : null;
   const state = typeof req.query.state === "string" ? req.query.state : null;
 
   const storedState = req.cookies.spotify_auth_state;
 
   if (!state || !storedState || state !== storedState) {
-    const errParams = new URLSearchParams({ error: "state_mismatch" });
-    return res.redirect(`/#${errParams.toString()}`)
+    return res.redirect(`${FRONTEND_ORIGIN}/?error=state_mismatch`);
   }
 
   if (!code) {
-    const errParams = new URLSearchParams({ error: "missing_code" });
-    return res.redirect(`/#${errParams.toString()}`)
+    return res.redirect(`${FRONTEND_ORIGIN}/?error=missing_code`);
   }
 
   // Clear state cookie
@@ -95,8 +100,7 @@ app.get("/callback", async (req, res) => {
     const tokenJson = await tokenRes.json();
 
     if (!tokenRes.ok) {
-      const errParams = new URLSearchParams({ error: "token_exchange_failed" });
-      return res.redirect(`/#${errParams.toString()}`);
+      return res.redirect(`${FRONTEND_ORIGIN}/?error=token_exchange_failed`);
     }
 
     const { access_token, refresh_token, expires_in } = tokenJson as {
@@ -113,7 +117,7 @@ app.get("/callback", async (req, res) => {
       maxAge: expires_in * 1000,
     });
 
-    // Refresh token
+    // Refresh toke
     if (refresh_token) {
       res.cookie("spotify_refresh_token", refresh_token, {
         httpOnly: true,
@@ -123,9 +127,20 @@ app.get("/callback", async (req, res) => {
       });
     }
 
-    return res.redirect("/main");
+    return res.redirect(`${FRONTEND_ORIGIN}/main`);
   } catch {
-      const errParams = new URLSearchParams({ error: "server_error" });
-      return res.redirect(`/#${errParams.toString()}`);
+    return res.redirect(`${FRONTEND_ORIGIN}/?error=server_error`);
   }
 });
+
+/**
+ * POST /auth/logout
+ * Clear auth cookies
+ */
+router.post("/logout", (_, res) => {
+  res.clearCookie("spotify_access_token");
+  res.clearCookie("spotify_refresh_token");
+  res.json({ ok: true });
+})
+
+export default router;
