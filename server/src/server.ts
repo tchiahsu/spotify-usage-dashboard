@@ -2,6 +2,7 @@ import express from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import authRouter from "./auth.js";
+import router from "./api/routes.js";
 
 const app = express();
 
@@ -20,6 +21,7 @@ app.use(
 
 // Routes
 app.use("/auth", authRouter);
+app.use("/", router)
 
 
 // Start Server
