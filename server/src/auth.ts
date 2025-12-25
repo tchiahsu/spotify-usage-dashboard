@@ -1,4 +1,3 @@
-// authRoutes.ts
 import { Router } from "express";
 import crypto from "crypto";
 
