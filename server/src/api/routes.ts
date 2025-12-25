@@ -1,15 +1,3 @@
-/*
--Get Follower Count, Playlist Count, Artist Count, Profile Picture, Name
--Get Recently Played (Horizontal Scroll, show last 10, allow to see more)
--Top Artists All Time (show top 10, allow to see more)
--Artist information
--Top Tracks All Time (show top 10, allow to see more)
--Track information
--All See more is a link to a new page with full list
--See Playlists
--Playlist songs in it
--Playlist description
-*/
 import { Router } from "express";
 import {
   getProfileSummary,

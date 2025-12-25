@@ -23,7 +23,6 @@ app.use(
 app.use("/auth", authRouter);
 app.use("/", router)
 
-
 // Start Server
 app.listen(PORT, () => {
   console.log(`API running on http:127.0.0.1:${PORT}`)
