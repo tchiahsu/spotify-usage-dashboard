@@ -1,11 +1,3 @@
-/*
-Get Follower Count, Following Count, Playlist Count, Profile Picture, Name
-Get Recebtly Played (Horizontal Scroll, show last 10, allow to see more)
-Top Artists All Time (show top 10, allow to see more)
-Top Tracks All Time (show top 10, allow to see more)
-All See more is a link to a new page with full list
-See Playlists (can click to see all songs in playlist, and get recommendations should show a small drop down)
-*/
 // authRoutes.ts
 import { Router } from "express";
 import crypto from "crypto";
