@@ -1,6 +1,10 @@
 import type { Request, Response } from "express";
 import { refreshAccessToken } from "../utils/util.js";
-import type { UserProfile, topArtist, topTrack, recentTracks } from "../types/user.js";
+import type { UserProfile, TopArtist, TopTrack, RecentTracks } from "../types/user.js";
+import type { ArtistDetails } from "../types/artist.js";
+import type { TrackDetails } from "../types/track.js";
+import type { UserPlaylists, PlaylistDetails, PlaylistTracks } from "../types/playlist.js";
+
 
 // --------------------------------------
 // User Web API
@@ -120,7 +124,7 @@ export async function getTopArtist(req: Request, res: Response) {
       return res.status(data.status).json({ error: "Failed to fetch profile" });
     }
 
-    const userData = (await data.json()) as topArtist;
+    const userData = (await data.json()) as TopArtist;
 
     const topArtistSummary = userData.items.map((a) => ({
       artist_id: a.id,
@@ -185,7 +189,7 @@ export async function getTopTracks(req: Request, res: Response) {
       return res.status(data.status).json({ error: "Failed to fetch profile" });
     }
 
-    const userData = (await data.json()) as topTrack;
+    const userData = (await data.json()) as TopTrack;
 
     const topTrackSummary = userData.items.map((t) => ({
       track_id: t.id,
@@ -257,7 +261,7 @@ export async function getRecentlyPlayer(req: Request, res: Response) {
       return res.status(data.status).json({ error: "Failed to fetch profile" });
     }
 
-    const userData = (await data.json()) as recentTracks;
+    const userData = (await data.json()) as RecentTracks;
 
     const RecentTrackSummary = userData.items.map((t) => ({
       track_id: t.track.id,
@@ -285,7 +289,70 @@ export async function getRecentlyPlayer(req: Request, res: Response) {
  * Info: name, image, followers, genres, popularity
  */
 export async function getArtistDetails(req: Request, res: Response) {
+  try {
+    const accessToken = req.cookies.spotify_access_token as string | undefined;
+    const refreshToken = req.cookies.spotify_refresh_token as string | undefined;
+    const id = req.params.id
 
+    if (!id) {
+      return res.status(401).json({ error: "Artist ID not found." })
+    }
+
+    if (!accessToken && !refreshToken) {
+      return res.status(401).json({ error: "Access token not found."})
+    }
+
+    let data = await fetch(`https://api.spotify.com/v1/artists/${id}`, {
+      headers: { Authorization: `Bearer ${accessToken}`}
+    })
+
+    // Access token is invalid or expired
+    if (!data || data.status === 401) {
+      if (!refreshToken) {
+        return res.status(401).json({ error: "Missing refresh token" });
+      }
+
+      const refreshed = await refreshAccessToken(refreshToken);
+      if (!refreshed.ok) {
+        res.clearCookie("spotify_access_token");
+        res.clearCookie("spotify_refresh_token");
+        return res.status(401).json({ error: "Session expired" });
+      }
+
+      const { access_token, expires_in } = refreshed.data;
+
+      res.cookie("spotify_access_token", access_token, {
+        httpOnly: true,
+        sameSite: "lax",
+        secure: process.env.NODE_ENV === "production",
+        maxAge: expires_in * 1000
+      });
+
+      data = await fetch(`https://api.spotify.com/v1/artists/${id}`, {
+        headers: { Authorization: `Bearer ${access_token}`}
+      })
+    }
+
+    if (!data.ok) {
+      return res.status(data.status).json({ error: "Failed to fetch artist information" });
+    }
+
+    const userData = (await data.json()) as ArtistDetails;
+
+    const ArtistSummary = {
+      artist_id: userData.id,
+      artist_name: userData.name,
+      artist_popularity: userData.popularity,
+      artist_followers: userData.followers.total,
+      artist_genres: userData.genres,
+      artist_image: userData.images[0]?.url ?? null
+    }
+
+    return res.json(ArtistSummary);
+  } catch (e) {
+    console.error(e);
+    return res.status(500).json({ error: "Error fetching artist details" });
+  }
 }
 
 // --------------------------------------
@@ -298,7 +365,72 @@ export async function getArtistDetails(req: Request, res: Response) {
  * Info: track name, image, popularity, artist name, album_tracks, release_date, duration_ms
  */
 export async function getTrackDetails(req: Request, res: Response) {
+  try {
+    const accessToken = req.cookies.spotify_access_token as string | undefined;
+    const refreshToken = req.cookies.spotify_refresh_token as string | undefined;
+    const id = req.params.id
 
+    if (!id) {
+      return res.status(401).json({ error: "Track ID not found." })
+    }
+
+    if (!accessToken && !refreshToken) {
+      return res.status(401).json({ error: "Access token not found."})
+    }
+
+    let data = await fetch(`https://api.spotify.com/v1/tracks/${id}`, {
+      headers: { Authorization: `Bearer ${accessToken}`}
+    })
+
+    // Access token is invalid or expired
+    if (!data || data.status === 401) {
+      if (!refreshToken) {
+        return res.status(401).json({ error: "Missing refresh token" });
+      }
+
+      const refreshed = await refreshAccessToken(refreshToken);
+      if (!refreshed.ok) {
+        res.clearCookie("spotify_access_token");
+        res.clearCookie("spotify_refresh_token");
+        return res.status(401).json({ error: "Session expired" });
+      }
+
+      const { access_token, expires_in } = refreshed.data;
+
+      res.cookie("spotify_access_token", access_token, {
+        httpOnly: true,
+        sameSite: "lax",
+        secure: process.env.NODE_ENV === "production",
+        maxAge: expires_in * 1000
+      });
+
+      data = await fetch(`https://api.spotify.com/v1/tracks/${id}`, {
+        headers: { Authorization: `Bearer ${access_token}`}
+      })
+    }
+
+    if (!data.ok) {
+      return res.status(data.status).json({ error: "Failed to fetch artist information" });
+    }
+
+    const userData = (await data.json()) as TrackDetails;
+
+    const TrackSummary = {
+      track_id: userData.id,
+      track_name: userData.name,
+      track_popularity: userData.popularity,
+      track_duration: userData.duration_ms,
+      artist_names: userData.artists.map((a) => a.name).join(", "),
+      album_id: userData.album.id,
+      album_name: userData.album.name,
+      album_image: userData.album.images[0]?.url ?? null
+    }
+
+    return res.json(TrackSummary);
+  } catch (e) {
+    console.error(e);
+    return res.status(500).json({ error: "Error fetching track details" });
+  }
 }
 
 // --------------------------------------
@@ -306,12 +438,71 @@ export async function getTrackDetails(req: Request, res: Response) {
 // --------------------------------------
 
 /**
- * GET users/{username}/playlists
- * URL: https://api.spotify.com/v1/users/smedjan/playlists
+ * GET /me/playlists
+ * URL: https://api.spotify.com/v1/me/playlists
  * Info: get playlists for the given user
  */
 export async function getUserPlaylist(req: Request, res: Response) {
+  try {
+    const accessToken = req.cookies.spotify_access_token as string | undefined;
+    const refreshToken = req.cookies.spotify_refresh_token as string | undefined;
 
+    if (!accessToken && !refreshToken) {
+      return res.status(401).json({ error: "Access token. not found." });
+    }
+
+    let data = await fetch("https://api.spotify.com/v1/me/playlists?limit=50", {
+      headers: { Authorization: `Bearer ${accessToken}`}
+    })
+    
+    // Access token expired
+    if (data.status === 401) {
+      if (!refreshToken) {
+        return res.status(401).json({ error: "Missing refresh token" });
+      }
+
+      const refreshed = await refreshAccessToken(refreshToken);
+      if (!refreshed.ok) {
+        res.clearCookie("spotify_access_token");
+        res.clearCookie("spotify_refresh_token");
+        return res.status(401).json({ error: "Session expired" });
+      }
+
+      const { access_token, expires_in } = refreshed.data;
+
+      res.cookie("spotify_access_token", access_token, {
+        httpOnly: true,
+        sameSite: "lax",
+        secure: process.env.NODE_ENV === "production",
+        maxAge: expires_in * 1000,
+      });
+
+      data = await fetch("https://api.spotify.com/v1/me/playlists?limit=50", {
+        headers: { Authorization: `Bearer ${access_token}`}
+      }); 
+    }
+
+    if (!data.ok) {
+      return res.status(data.status).json({ error: "Failed to fetch playlists" });
+    }
+
+    const userData = (await data.json()) as UserPlaylists;
+
+    const playlistSummary = userData.items.map((p) => ({
+      playlist_id: p.id,
+      playlist_name: p.name,
+      playlist_description: p.description,
+      playlist_image: p.images[0]?.url ?? null,
+      owner_name: p.owner.display_name,
+      total_tracks: p.tracks.total,
+      is_public: p.public      
+    }));
+
+    return res.json(playlistSummary)
+  } catch (e) {
+    console.error(e);
+    return res.status(500).json({ error: "Error fetching user playlists" });
+  }
 }
 
 /**
@@ -320,7 +511,71 @@ export async function getUserPlaylist(req: Request, res: Response) {
  * Info: description, images, name, owner name, total tracks, 
  */
 export async function getPlaylistDetails(req: Request, res: Response) {
+  try {
+    const accessToken = req.cookies.spotify_access_token as string | undefined;
+    const refreshToken = req.cookies.spotify_refresh_token as string | undefined;
+    const id = req.params.id
 
+    if (!id) {
+      return res.status(401).json({ error: "Playlist ID not found." })
+    }
+
+    if (!accessToken && !refreshToken) {
+      return res.status(401).json({ error: "Access token not found."})
+    }
+
+    let data = await fetch(`https://api.spotify.com/v1/playlists/${id}`, {
+      headers: { Authorization: `Bearer ${accessToken}`}
+    })
+
+    // Access token is invalid or expired
+    if (!data || data.status === 401) {
+      if (!refreshToken) {
+        return res.status(401).json({ error: "Missing refresh token" });
+      }
+
+      const refreshed = await refreshAccessToken(refreshToken);
+      if (!refreshed.ok) {
+        res.clearCookie("spotify_access_token");
+        res.clearCookie("spotify_refresh_token");
+        return res.status(401).json({ error: "Session expired" });
+      }
+
+      const { access_token, expires_in } = refreshed.data;
+
+      res.cookie("spotify_access_token", access_token, {
+        httpOnly: true,
+        sameSite: "lax",
+        secure: process.env.NODE_ENV === "production",
+        maxAge: expires_in * 1000
+      });
+
+      data = await fetch(`https://api.spotify.com/v1/playlists/${id}`, {
+        headers: { Authorization: `Bearer ${access_token}`}
+      })
+    }
+
+    if (!data.ok) {
+      return res.status(data.status).json({ error: "Failed to fetch playlist information" });
+    }
+
+    const userData = (await data.json()) as PlaylistDetails;
+
+    const PlaylistSummary = {
+      playlist_id: userData.id,
+      playlist_name: userData.name,
+      playlist_description: userData.description,
+      is_public: userData.public,
+      playlist_image: userData.images[0]?.url ?? null,
+      playlist_owner: userData.owner.display_name,
+      playlist_num_track: userData.tracks.total
+    }
+
+    return res.json(PlaylistSummary);
+  } catch (e) {
+    console.error(e);
+    return res.status(500).json({ error: "Error fetching playlist details" });
+  }
 }
 
 /**
