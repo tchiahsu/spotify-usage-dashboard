@@ -31,7 +31,7 @@ router.get("/artist/50", getTopArtist)
 
 /**
  * GET /track/top-50
- * Info: top tracks in the long term (50) - track name, image, album name, artist name
+ * Info: top tracks in the long term (50) - track name, image, album name, artist name, duration
  */
 router.get("/track/50", getTopTracks)
 
