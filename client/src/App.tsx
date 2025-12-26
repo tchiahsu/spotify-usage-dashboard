@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Menu from "./layout/Menu";
 import Profile from "./pages/profile";
 import Artist from "./pages/artist";
 import Track from "./pages/track";
@@ -10,13 +11,19 @@ function App() {
   return (
     <>
       <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Profile />}  />
-          <Route path="/top-artists" element={<Artist />} />
-          <Route path="/top-tracks" element={<Track />} />
-          <Route path="/recently-played" element={<Recent />} />
-          <Route path="/playlists" element={<Playlist />} />
-        </Routes>
+        {/* Navigation Bar */}
+        <Menu />
+
+        {/* Page Content */}
+        <main>
+          <Routes>
+            <Route path="/" element={<Profile />}  />
+            <Route path="/top-artists" element={<Artist />} />
+            <Route path="/top-tracks" element={<Track />} />
+            <Route path="/recently-played" element={<Recent />} />
+            <Route path="/playlists" element={<Playlist />} />
+          </Routes>
+        </main>
       </BrowserRouter>
     </>
   )
