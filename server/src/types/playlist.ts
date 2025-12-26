@@ -3,6 +3,7 @@ export type UserPlaylists = {
     id: string;
     name: string;
     description: string | null;
+    public: boolean | null;
     images: Array<{ url: string }>;
     owner: {
       id: string;
@@ -12,8 +13,6 @@ export type UserPlaylists = {
       total: number;
     };
   }>;
-  limit: number;
-  offset: number;
   total: number;
 };
 
@@ -21,7 +20,8 @@ export type PlaylistDetails = {
   id: string;
   name: string;
   description: string | null;
-  images: Array<{ url: string }>;
+  public: boolean | null;
+  images: Array<{ url: string; }>;
   owner: {
     id: string;
     display_name: string;
