@@ -588,6 +588,8 @@ export async function getPlaylistTracks(req: Request, res: Response) {
     const accessToken = req.cookies.spotify_access_token as string | undefined;
     const refreshToken = req.cookies.spotify_refresh_token as string | undefined;
     const id = req.params.id;
+    const limit = Math.min(Number(req.query.limit ?? 50), 100);
+    const offset = Math.max(Number(req.query.offset ?? 0), 0);
 
     if (!id) {
       return res.status(401).json({ error: "Playlist ID not found"})
@@ -597,7 +599,7 @@ export async function getPlaylistTracks(req: Request, res: Response) {
       return res.status(401).json({ error: "Access token not found." });
     }
 
-    let data = await fetch(`https://api.spotify.com/v1/playlists/${id}/tracks?limit=50`, {
+    let data = await fetch(`https://api.spotify.com/v1/playlists/${id}/tracks?limit=${limit}&offset=${offset}`, {
       headers: { Authorization: `Bearer ${accessToken}`}
     })
     
@@ -623,7 +625,7 @@ export async function getPlaylistTracks(req: Request, res: Response) {
         maxAge: expires_in * 1000,
       });
 
-      data = await fetch(`https://api.spotify.com/v1/playlists/${id}/tracks?limit=50`, {
+      data = await fetch(`https://api.spotify.com/v1/playlists/${id}/tracks?limit=${limit}&offset=${offset}`, {
         headers: { Authorization: `Bearer ${access_token}`}
       }); 
     }
@@ -635,13 +637,18 @@ export async function getPlaylistTracks(req: Request, res: Response) {
     const userData = (await data.json()) as PlaylistTracks;
 
     const playlistTrackSummary = userData.items.filter((i) => i.track).map((p) => ({
-      track_id: p.track.id,
-      track_name: p.track.name,
-      track_album: p.track.album.name,
-      artist_name: p.track.artists.map((a) => a.name).join(", "),
+      track_id: p.track!.id,
+      track_name: p.track!.name,
+      track_album: p.track!.album.name,
+      artist_name: p.track!.artists.map((a) => a.name).join(", "),
     }));
 
-    return res.json({ total: userData.total, items: playlistTrackSummary })
+    return res.json({
+      total: userData.total,
+      limit: userData.limit,
+      offset: userData.offset,
+      items: playlistTrackSummary
+    });
   } catch (e) {
     console.error(e);
     return res.status(500).json({ error: "Error fetching user playlists" });
