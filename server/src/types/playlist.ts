@@ -46,7 +46,5 @@ export type PlaylistTracks = {
       }>;
     };
   }>;
-  limit: number;
-  offset: number;
   total: number;
 };
