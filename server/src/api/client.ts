@@ -584,5 +584,66 @@ export async function getPlaylistDetails(req: Request, res: Response) {
  * Info: track name, album_name, artist_name
  */
 export async function getPlaylistTracks(req: Request, res: Response) {
+  try {
+    const accessToken = req.cookies.spotify_access_token as string | undefined;
+    const refreshToken = req.cookies.spotify_refresh_token as string | undefined;
+    const id = req.params.id;
 
+    if (!id) {
+      return res.status(401).json({ error: "Playlist ID not found"})
+    }
+
+    if (!accessToken && !refreshToken) {
+      return res.status(401).json({ error: "Access token not found." });
+    }
+
+    let data = await fetch(`https://api.spotify.com/v1/playlists/${id}/tracks?limit=50`, {
+      headers: { Authorization: `Bearer ${accessToken}`}
+    })
+    
+    // Access token expired
+    if (data.status === 401) {
+      if (!refreshToken) {
+        return res.status(401).json({ error: "Missing refresh token" });
+      }
+
+      const refreshed = await refreshAccessToken(refreshToken);
+      if (!refreshed.ok) {
+        res.clearCookie("spotify_access_token");
+        res.clearCookie("spotify_refresh_token");
+        return res.status(401).json({ error: "Session expired" });
+      }
+
+      const { access_token, expires_in } = refreshed.data;
+
+      res.cookie("spotify_access_token", access_token, {
+        httpOnly: true,
+        sameSite: "lax",
+        secure: process.env.NODE_ENV === "production",
+        maxAge: expires_in * 1000,
+      });
+
+      data = await fetch(`https://api.spotify.com/v1/playlists/${id}/tracks?limit=50`, {
+        headers: { Authorization: `Bearer ${access_token}`}
+      }); 
+    }
+
+    if (!data.ok) {
+      return res.status(data.status).json({ error: "Failed to fetch playlists" });
+    }
+
+    const userData = (await data.json()) as PlaylistTracks;
+
+    const playlistTrackSummary = userData.items.filter((i) => i.track).map((p) => ({
+      track_id: p.track.id,
+      track_name: p.track.name,
+      track_album: p.track.album.name,
+      artist_name: p.track.artists.map((a) => a.name).join(", "),
+    }));
+
+    return res.json({ total: userData.total, items: playlistTrackSummary })
+  } catch (e) {
+    console.error(e);
+    return res.status(500).json({ error: "Error fetching user playlists" });
+  }
 }
