@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
 import Login from "./pages/login";
 import Menu from "./layout/menu";
 import Profile from "./pages/profile";
@@ -8,33 +8,34 @@ import Recent from "./pages/recent";
 import Playlist from "./pages/playlist";
 import './App.css'
 
+function AuthLayout() {
+  return (
+    <div className="flex">
+      <Menu />
+      <main className="flex-1">
+        <Outlet />
+      </main>
+    </div>
+  )
+}
+
 function App() {
   return (
     <>
       <BrowserRouter>
         <Routes>
           {/* Public route */}
-          <Route path="/login" element={<Login />} />
+          <Route path="/" element={<Login />} />
 
           {/* Private routes */}
-          <Route
-            path="/*"
-            element={
-              <>
-                <Menu />
-                <main>
-                  <Routes>
-                    <Route path="/" element={<Profile />} />
-                    <Route path="/main" element={<Profile />} />
-                    <Route path="/top-artists" element={<Artist />} />
-                    <Route path="/top-tracks" element={<Track />} />
-                    <Route path="/recently-played" element={<Recent />} />
-                    <Route path="/playlists" element={<Playlist />} />
-                  </Routes>
-                </main>
-              </>
-            }
-          />
+          <Route element={<AuthLayout />}>
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/main" element={<Profile />} />
+            <Route path="/top-artists" element={<Artist />} />
+            <Route path="/top-tracks" element={<Track />} />
+            <Route path="/recently-played" element={<Recent />} />
+            <Route path="/playlists" element={<Playlist />} />
+          </Route>
         </Routes>
       </BrowserRouter>
     </>
