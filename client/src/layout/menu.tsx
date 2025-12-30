@@ -37,41 +37,39 @@ export default function Menu() {
   }
 
   return (
-    <div className="absolute top-0 inset-0 shadow-xl overflow-y-hidden">
-      <div className="bg-[#121212] text-white h-full w-27 my-5 flex flex-col justify-between items-center">
-        {/* Spotify Logo */}
-        <img src={logo} alt="spotify_logo" className="flex justify-center items-center h-13 w-auto cursor-pointer"/>
+    <div className="w-28 bg-[#121212] text-white flex flex-col justify-between items-center py-6 shadow-xl">
+      {/* Spotify Logo */}
+      <img src={logo} alt="spotify_logo" className="flex justify-center items-center h-13 w-auto cursor-pointer"/>
 
-        {/* Navigation Bar */}
-        <nav className="w-full">
-          <ul className="flex flex-col">
-            {navItems.map(({ label, to, icon: Icon }) => (
-              <NavLink
-                key={to}
-                to={to}
-                className={({ isActive }) =>
-                  clsx(
-                    "flex flex-col gap-1 h-20 justify-center items-center border-l-6 transition-all duration-200",
-                    isActive ? "opacity-100 border-[#1DB954] bg-[#212121]" : "opacity-80 border-[#121212] hover:opacity-100 hover:border-[#1DB954] hover:bg-[#212121]"
-                  )
-                }
-              >
-                <Icon className="text-3xl" />
-                <div className="text-xs">{label}</div>
-              </NavLink>
-            ))}
-          </ul>
-        </nav>
-        
-        <button
-          onClick={handleLogout}
-          aria-label="Log out"
-          className="mb-15 opacity-60 hover:opacity-100 hover:scale-105 active:scale-100 transition"
-        >
-          <IoExitOutline className="text-3xl"/>
-        </button>
+      {/* Navigation Bar */}
+      <nav className="w-full">
+        <ul className="flex flex-col">
+          {navItems.map(({ label, to, icon: Icon }) => (
+            <NavLink
+              key={to}
+              to={to}
+              className={({ isActive }) =>
+                clsx(
+                  "flex flex-col gap-1 h-20 justify-center items-center border-l-6 transition-all duration-200",
+                  isActive ? "opacity-100 border-[#1DB954] bg-[#212121]" : "opacity-80 border-[#121212] hover:opacity-100 hover:border-[#1DB954] hover:bg-[#212121]"
+                )
+              }
+            >
+              <Icon className="text-3xl" />
+              <div className="text-xs">{label}</div>
+            </NavLink>
+          ))}
+        </ul>
+      </nav>
+      
+      <button
+        onClick={handleLogout}
+        aria-label="Log out"
+        className="mb-5 opacity-60 hover:opacity-100 hover:scale-105 active:scale-100 transition"
+      >
+        <IoExitOutline className="text-3xl"/>
+      </button>
 
-      </div>
     </div>
   )
 }
