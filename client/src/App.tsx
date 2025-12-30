@@ -10,13 +10,13 @@ import './App.css'
 
 function AuthLayout() {
   return (
-    <div className="flex">
+    <div className="flex min-h-screen w-screen">
       <Menu />
-      <main className="flex-1">
+      <main className="flex-1 overflow-y-auto">
         <Outlet />
       </main>
     </div>
-  )
+  );
 }
 
 function App() {
