@@ -34,7 +34,7 @@ export default function Menu() {
                 className={({ isActive }) =>
                   clsx(
                     "flex flex-col gap-1 h-20 justify-center items-center border-l-6 transition-all duration-200",
-                    isActive ? "opacity-100 border-[#1ED760] bg-[#212121]" : "opacity-80 border-[#121212] hover:opacity-100 hover:border-[#1ED760] hover:bg-[#212121]"
+                    isActive ? "opacity-100 border-[#1DB954] bg-[#212121]" : "opacity-80 border-[#121212] hover:opacity-100 hover:border-[#1DB954] hover:bg-[#212121]"
                   )
                 }
               >
