@@ -78,16 +78,16 @@ export default function Artists() {
             </div>
 
             <div className="mt-4 flex items-center gap-3">
-              <div className="text-[#1db954] font-black text-4xl leading-none">
+              <div className="text-[#1db954] font-black text-4xl tracking-tight leading-none">
                 {formatRank(i)}
               </div>
-              <div className="flex flex-col min-w-0">
-                <div className="text-white text-sm font-semibold truncate cursor-pointer hover:underline">
+              <div className="flex flex-col min-w-0 gap-0.5">
+                <div className="text-white text-md font-semibold truncate cursor-pointer hover:underline">
                   {a.artist_name}
                 </div>
-                <div className="flex flex-col gap-[2px]">
-                  <div className="text-white text-[11px] leading-none font-bold">
-                    {formatNumber(a.artist_follower_total)}
+                <div className="flex flex-col gap-0.5">
+                  <div className="text-[#b3b3b3] text-[11px] leading-none font-bold">
+                    {formatNumber(a.artist_follower_total)} followers
                   </div>            
                 </div>
               </div>
