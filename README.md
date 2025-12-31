@@ -32,7 +32,7 @@ FRONTEND_ORIGIN=http://127.0.0.1:5173
 ```
 
 ## Backend
-The backend is built with Express.js and run on TypeScript. To get started, you'll install the Node.js dependencies and run the server.
+The backend handles Spotify authentication, secure token management, and data retrieval using the Spotify Web API. It is built with Express.js and TypeScript, providing a clean API layer for the frontend.
 ```bash
 # change the directory into 'server'
 cd server
@@ -45,6 +45,7 @@ npm start
 ```
 
 ## Frontend
+The frontend is a React + TypeScript application built with Vite that provides a clean, responsive interface for exploring your Spotify listening history and insights.
 ```bash
 # change the directory into 'client'
 cd client
