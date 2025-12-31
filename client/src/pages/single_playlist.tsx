@@ -102,14 +102,14 @@ export default function SinglePlaylist() {
       <div className="grid grid-cols-[210px_1fr] gap-35">
         {/* Playlist Info */}
         <div className="flex flex-col items-center text-center">
-          <div className="w-[320px] h-[320px] rounded-3xl overflow-hidden">
+          <div className="w-[320px] h-80 rounded-3xl overflow-hidden">
             {selectedPlaylist.playlist_image ? (
-              <img src={selectedPlaylist.playlist_image} alt="not image found" className="h-full w-full object-cover" />
+                <img src={selectedPlaylist.playlist_image} alt="not image found" className="h-full w-full object-cover" />
               ) : (
                 <div>N/A</div>
               )}
           </div>
-          <div className="mt-8 text-white font-bold text-2xl leading-snug max-w-[360px]">
+          <div className="mt-8 text-white font-bold text-2xl leading-snug max-w-90">
               {selectedPlaylist.playlist_name}
           </div>
           <div className="mt-2 text-[#b3b3b3] font-semibold text-sm">
@@ -126,7 +126,7 @@ export default function SinglePlaylist() {
             <div className="flex justify-between items-center">
               <div className="flex flew-row items-center gap-5">
                 {t.album_image ? (
-                  <img src={t.album_image} alt="not image found" className="w-12 h-12 object-cover" />
+                  <img src={t.album_image} alt="not image found" className="w-12 h-12 object-cover cursor-pointer" />
                 ) : (
                   <div>N/A</div>
                 )}

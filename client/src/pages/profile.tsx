@@ -225,7 +225,7 @@ export default function Profile() {
             <div className="flex justify-between items-center">
               <div className="flex flew-row items-center gap-5">
                 {t.album_image ? (
-                  <img src={t.album_image} alt="not image found" className="w-12 h-12 object-cover" />
+                  <img src={t.album_image} alt="not image found" className="w-12 h-12 object-cover cursor-pointer" />
                 ) : (
                   <div>N/A</div>
                 )}
