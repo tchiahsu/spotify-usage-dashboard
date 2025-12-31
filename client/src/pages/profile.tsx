@@ -9,7 +9,7 @@ import type { TopTrackSummary } from "../types/track";
 import type { UserPlaylistsSummary } from "../types/playlist";
 
 
-const BACKEND_URL = import.meta.env.VITE_BACKEND_ORIGIN ?? "http://localhost:3000";
+const BACKEND_URL = import.meta.env.VITE_BACKEND_ORIGIN ?? "http://127.0.0.1:3000";
 
 export default function Profile() {
   const [profile, setProfile] = useState<ProfileSummary | null>(null);

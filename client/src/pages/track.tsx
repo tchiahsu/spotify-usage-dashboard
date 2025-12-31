@@ -4,7 +4,7 @@ import { formatDuration } from "../utils/formatNumber";
 
 import type { TopTrackSummary } from "../types/track";
 
-const BACKEND_URL = import.meta.env.VITE_BACKEND_ORIGIN ?? "http://localhost:3000";
+const BACKEND_URL = import.meta.env.VITE_BACKEND_ORIGIN ?? "http://127.0.0.1:3000";
 
 export default function Track() {
   const [topTracks, setTopTracks] = useState<TopTrackSummary | null>(null);
