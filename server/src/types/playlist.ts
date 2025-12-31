@@ -42,6 +42,7 @@ export type PlaylistTracks = {
     track: {
       id: string;
       name: string;
+      duration_ms: number;
       album: {
         id: string;
         name: string;

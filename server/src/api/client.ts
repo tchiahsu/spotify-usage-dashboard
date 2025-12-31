@@ -595,7 +595,7 @@ export async function getPlaylistTracks(req: Request, res: Response) {
   try {
     const accessToken = req.cookies.spotify_access_token as string | undefined;
     const refreshToken = req.cookies.spotify_refresh_token as string | undefined;
-    const id = req.params.id;
+    const id = String(req.query.id ?? "");
     const limit = Math.min(Number(req.query.limit ?? 50), 100);
     const offset = Math.max(Number(req.query.offset ?? 0), 0);
 
@@ -650,6 +650,8 @@ export async function getPlaylistTracks(req: Request, res: Response) {
       track_name: p.track!.name,
       track_album: p.track!.album.name,
       artist_name: p.track!.artists.map((a) => a.name).join(", "),
+      album_image: p.track!.album.images?.[0]?.url ?? null,
+      track_duration: p.track!.duration_ms,
     }));
 
     return res.json({

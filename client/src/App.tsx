@@ -6,6 +6,7 @@ import Artist from "./pages/artist";
 import Track from "./pages/track";
 import Recent from "./pages/recent";
 import Playlist from "./pages/playlist";
+import SinglePlaylist from "./pages/single_playlist";
 import './App.css'
 
 function AuthLayout() {
@@ -37,6 +38,7 @@ function App() {
             <Route path="/top-tracks" element={<Track />} />
             <Route path="/recently-played" element={<Recent />} />
             <Route path="/playlists" element={<Playlist />} />
+            <Route path="/playlists/:playlistId" element={<SinglePlaylist />}/>
           </Route>
         </Routes>
       </BrowserRouter>

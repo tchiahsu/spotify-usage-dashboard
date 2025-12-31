@@ -11,3 +11,7 @@ export function formatDuration(ms: number): string {
   const seconds = totalSeconds % 60;
   return `${minutes}:${seconds.toString().padStart(2, "0")}`;
 }
+
+export function formatRank(i: number){
+  return String(i + 1).padStart(2, "0");
+}

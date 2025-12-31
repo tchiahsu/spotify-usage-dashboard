@@ -13,6 +13,8 @@ export type PlaylistTrackItem = {
   track_name: string;
   track_album: string;
   artist_name: string;
+  album_image: string | null;
+  track_duration: number;
 }
 
 export type PlaylistAllTracks = {
