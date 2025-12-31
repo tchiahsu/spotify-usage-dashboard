@@ -58,7 +58,7 @@ export default function Track() {
       {/* Page Title */}
       <div className="flex flex-col gap-3">
         <div className="font-bold text-white text-5xl tracking-wide">Top Tracks</div>
-        <div className="text-[#535353] font-semibold text-lg">Your go to songs so far...</div>
+        <div className="text-[#535353] font-semibold text-lg">The soundtrack of your moments.</div>
       </div>
 
       {/* Track Information */}
@@ -67,17 +67,17 @@ export default function Track() {
           <div className="grid grid-cols-[2fr_1fr_1fr] items-center">
             <div className="flex flew-row items-center gap-5">
               {t.album_image ? (
-                <img src={t.album_image} alt="not image found" className="w-20 h-20 object-cover rounded-md cursor-pointer" />
+                <img src={t.album_image} alt="not image found" className="w-16 h-16 object-cover rounded-md cursor-pointer" />
               ) : (
                 <div>N/A</div>
               )}
               <div className="flex flex-col gap-2">
-                <div className="text-white text-lg font-semibold tracking-wide overflow-clip cursor-pointer hover:underline">{t.track_name}</div>
-                <div className="text-sm items-center text-white gap-1">{t.artist_name}</div>
+                <div className="text-white text-md font-semibold tracking-wide overflow-clip cursor-pointer hover:underline">{t.track_name}</div>
+                <div className="text-xs items-center text-white gap-1">{t.artist_name}</div>
               </div>
             </div>
             <div className="flex flex-1 text-[#b3b3b3]">{t.album_name}</div>
-            <div className="flex justify-end text-white font-semibold text-md">
+            <div className="flex justify-end text-white font-semibold text-sm">
               {formatDuration(t.track_duration)}
             </div>
           </div>
