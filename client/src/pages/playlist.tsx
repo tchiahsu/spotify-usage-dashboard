@@ -1,5 +1,6 @@
 import { useState, useEffect} from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { GoDotFill } from "react-icons/go";
 
 import type { UserPlaylistItem, UserPlaylistsSummary } from "../types/playlist";
 
@@ -61,11 +62,11 @@ export default function Playlist() {
         <div className="text-[#535353] font-semibold text-lg">All your moods, perfectly queued.</div>
       </div>
 
-      {/* Artist Information */}
-      <div className="grid grid-cols-5 gap-3">
+      {/* Playlist Information */}
+      <div className="grid grid-cols-5 gap-5">
         {playlists?.map((p: UserPlaylistItem) => (
           <div className="flex flex-col gap-1">
-            <Link to={`/playlists/${p.playlist_id}`} className="flex flex-col gap-1">
+            <Link to={`/playlists/${p.playlist_id}`} className="flex flex-col gap-2">
               <div className="h-50 w-full rounded-xl overflow-hidden">
                 {p.playlist_image ? (
                   <img src={p.playlist_image} alt="not image found" className="h-full w-full object-cover cursor-pointer" />
@@ -84,6 +85,7 @@ export default function Playlist() {
                 <div>
                   {p.total_tracks} TRACKS
                 </div>
+                <GoDotFill size={7}/>
                 <div>
                   {p.is_public ? "PUBLIC" : "PRIVATE"}
                 </div>
