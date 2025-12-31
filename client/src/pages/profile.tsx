@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { GoDotFill } from "react-icons/go";
+import { formatNumber, formatDuration } from "../utils/formatNumber";
 
 import type { ProfileSummary } from "../types/profile";
 import type { TopArtistSummary } from "../types/artist";
@@ -9,20 +10,6 @@ import type { UserPlaylistsSummary } from "../types/playlist";
 
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_ORIGIN ?? "http://localhost:3000";
-
-function formatNumber(n: number): string {
-  if (n >= 1_000_000_000) return (n / 1_000_000_000).toFixed(1).replace(/\.0$/, "") + "B";
-  if (n >= 1_000_000) return (n / 1_000_000).toFixed(1).replace(/\.0$/, "") + "M";
-  if (n >= 1_000) return (n / 1_000).toFixed(1).replace(/\.0$/, "") + "k";
-  return n.toString();
-}
-
-function formatDuration(ms: number): string {
-  const totalSeconds = Math.floor(ms / 1000);
-  const minutes = Math.floor(totalSeconds / 60);
-  const seconds = totalSeconds % 60;
-  return `${minutes}:${seconds.toString().padStart(2, "0")}`;
-}
 
 export default function Profile() {
   const [profile, setProfile] = useState<ProfileSummary | null>(null);
