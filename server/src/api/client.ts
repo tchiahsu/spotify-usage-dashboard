@@ -4,6 +4,7 @@ import type { UserProfile, TopArtist, TopTrack, RecentTracks } from "../types/us
 import type { ArtistDetails } from "../types/artist.js";
 import type { TrackDetails } from "../types/track.js";
 import type { UserPlaylists, PlaylistDetails, PlaylistTracks } from "../types/playlist.js";
+import { getTimeRange } from "../utils/time_range.js";
 
 
 // --------------------------------------
@@ -85,12 +86,13 @@ export async function getTopArtist(req: Request, res: Response) {
   try {
     const accessToken = req.cookies.spotify_access_token as string | undefined;
     const refreshToken = req.cookies.spotify_refresh_token as string | undefined;
+    const timeRange = getTimeRange(req.query.range);
 
     if (!accessToken && !refreshToken) {
       return res.status(401).json({ error: "Access token not found."})
     }
 
-    let data = await fetch("https://api.spotify.com/v1/me/top/artists?time_range=long_term&limit=50", {
+    let data = await fetch(`https://api.spotify.com/v1/me/top/artists?time_range=${timeRange}&limit=50`, {
       headers: { Authorization: `Bearer ${accessToken}`}
     })
 
@@ -117,7 +119,7 @@ export async function getTopArtist(req: Request, res: Response) {
         path: "/"
       });
 
-      data = await fetch("https://api.spotify.com/v1/me/top/artists?time_range=long_term&limit=50", {
+      data = await fetch(`https://api.spotify.com/v1/me/top/artists?time_range=${timeRange}&limit=50`, {
         headers: { Authorization: `Bearer ${access_token}`}
       })
     }
@@ -151,12 +153,13 @@ export async function getTopTracks(req: Request, res: Response) {
   try {
     const accessToken = req.cookies.spotify_access_token as string | undefined;
     const refreshToken = req.cookies.spotify_refresh_token as string | undefined;
+    const timeRage = getTimeRange(req.query.range);
 
     if (!accessToken && !refreshToken) {
       return res.status(401).json({ error: "Access token not found."})
     }
 
-    let data = await fetch("https://api.spotify.com/v1/me/top/tracks?time_range=long_term&limit=50", {
+    let data = await fetch(`https://api.spotify.com/v1/me/top/tracks?time_range=${timeRage}&limit=50`, {
       headers: { Authorization: `Bearer ${accessToken}`}
     })
 
@@ -183,7 +186,7 @@ export async function getTopTracks(req: Request, res: Response) {
         path: "/"
       });
 
-      data = await fetch("https://api.spotify.com/v1/me/top/tracks?time_range=long_term&limit=50", {
+      data = await fetch(`https://api.spotify.com/v1/me/top/tracks?time_range=${timeRage}&limit=50`, {
         headers: { Authorization: `Bearer ${access_token}`}
       })
     }
