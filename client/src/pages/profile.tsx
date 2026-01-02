@@ -210,12 +210,6 @@ export default function Profile() {
 
           {/* Profile Stats */}
           <div className="flex flex-row gap-10">
-            {/* User ID */}
-            <div className="flex flex-row gap-3">
-              <div className="text-[#1DB954] font-bold">{profile.id}</div>
-              <div className="text-[#535353] font-bold">User ID</div>
-            </div>
-
             {/* Follower Count */}
             <div className="flex flex-row gap-2">
               <div className="text-[#1DB954] font-bold">{profile.followers}</div>
