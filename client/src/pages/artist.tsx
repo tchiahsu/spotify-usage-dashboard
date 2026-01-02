@@ -1,8 +1,8 @@
 import { useState, useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 import { formatNumber, formatRank } from "../utils/formatNumber";
-
-import type { TopArtist, TopArtistSummary } from "../types/artist";
+import type { ArtistSummary, TopArtist, TopArtistSummary } from "../types/artist";
+import ArtistPopup from "../components/ArtistPopup";
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_ORIGIN ?? "http://127.0.0.1:3000";
 
@@ -10,6 +10,8 @@ export default function Artists() {
   const [topArtists, setTopArtists] = useState<TopArtistSummary | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [openPopup, setOpenPopup] = useState(false);
+  const [selectedArist, setSelectedArtist] = useState<ArtistSummary | null>(null);
 
   const navigate = useNavigate();
 
@@ -38,6 +40,25 @@ export default function Artists() {
       } finally {
         setLoading(false);
       }
+  }
+
+  async function openArtistPopup(artistId: string) {
+    try{
+      const response = await fetch(`${BACKEND_URL}/artist/summary?id=${artistId}`, {
+        method: "GET",
+        credentials: "include",
+      });
+
+      if(!response.ok) {
+        throw new Error("Failed to get artist info");
+      }
+
+      const data: ArtistSummary = await response.json();
+      setSelectedArtist(data);
+      setOpenPopup(true);
+    } catch (e) {
+      console.error("Error loading artist info:", e);
+    }
   }
 
   useEffect(() => {
@@ -71,7 +92,12 @@ export default function Artists() {
           >
             <div className="h-40 w-full rounded-xl overflow-hidden">
               {a.artist_images ? (
-                <img src={a.artist_images} alt="not image found" className="h-full w-full object-cover cursor-pointer" />
+                <img 
+                  src={a.artist_images ?? undefined} 
+                  alt="not image found" 
+                  className="h-full w-full object-cover cursor-pointer" 
+                  onClick={() => openArtistPopup(a.artist_id)}  
+                />
               ) : (
                 <div>N/A</div>
               )}
@@ -82,7 +108,10 @@ export default function Artists() {
                 {formatRank(i)}
               </div>
               <div className="flex flex-col min-w-0 gap-0.5">
-                <div className="text-white text-md font-semibold truncate cursor-pointer hover:underline">
+                <div 
+                  className="text-white text-md font-semibold truncate cursor-pointer hover:underline"
+                  onClick={() => openArtistPopup(a.artist_id)}
+                >
                   {a.artist_name}
                 </div>
                 <div className="flex flex-col gap-0.5">
@@ -95,6 +124,14 @@ export default function Artists() {
           </div>
         ))}
       </div>
+      <ArtistPopup
+        open={openPopup}
+        artist={selectedArist}
+        onClose={() => {
+          setOpenPopup(false);
+          setSelectedArtist(null);
+        }}
+      />
     </div>
   )
 }

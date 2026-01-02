@@ -4,10 +4,11 @@ import { GoDotFill } from "react-icons/go";
 import { formatNumber, formatDuration } from "../utils/formatNumber";
 
 import type { ProfileSummary } from "../types/profile";
-import type { TopArtistSummary } from "../types/artist";
-import type { TopTrackSummary } from "../types/track";
+import type { TopTrackSummary, TrackSummary } from "../types/track";
 import type { UserPlaylistsSummary } from "../types/playlist";
-
+import type { ArtistSummary, TopArtistSummary } from "../types/artist";
+import ArtistPopup from "../components/ArtistPopup";
+import TrackPopup from "../components/TrackPopup";
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_ORIGIN ?? "http://127.0.0.1:3000";
 
@@ -18,6 +19,10 @@ export default function Profile() {
   const [playlists, setPlaylists] = useState<UserPlaylistsSummary | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const [openPopup, setOpenPopup] = useState(false);
+  const [selectedArist, setSelectedArtist] = useState<ArtistSummary | null>(null);
+  const [openPopupTrack, setOpenPopupTrack] = useState(false);
+  const [selectedTrack, setSelectedTrack] = useState<TrackSummary | null>(null);
 
   const navigate = useNavigate();
 
@@ -127,6 +132,44 @@ export default function Profile() {
     }
   }
 
+  async function openArtistPopup(artistId: string) {
+    try{
+      const response = await fetch(`${BACKEND_URL}/artist/summary?id=${artistId}`, {
+        method: "GET",
+        credentials: "include",
+      });
+
+      if(!response.ok) {
+        throw new Error("Failed to get artist info");
+      }
+
+      const data: ArtistSummary = await response.json();
+      setSelectedArtist(data);
+      setOpenPopup(true);
+    } catch (e) {
+      console.error("Error loading artist info:", e);
+    } 
+  }
+
+  async function openTrackPopup(trackId: string) {
+    try{
+      const response = await fetch(`${BACKEND_URL}/track/summary?id=${trackId}`, {
+        method: "GET",
+        credentials: "include",
+      });
+
+      if(!response.ok) {
+        throw new Error("Failed to get track info");
+      }
+
+      const data: TrackSummary = await response.json();
+      setSelectedTrack(data);
+      setOpenPopupTrack(true);
+    } catch (e) {
+      console.error("Error loading track info:", e);
+    } 
+  }
+
   useEffect(() => {
     getProfileInfo();
     getUserPlaylists();
@@ -199,13 +242,24 @@ export default function Profile() {
           {topArtists?.slice(0, 10).map((a) => (
             <div className="flex flew-row items-center gap-5">
               {a.artist_images ? (
-                <img src={a.artist_images} alt="not image found" className="w-12 h-12 object-cover rounded-full cursor-pointer" />
+                <img 
+                  src={a.artist_images} 
+                  alt="not image found" 
+                  className="w-12 h-12 object-cover rounded-full cursor-pointer" 
+                  onClick={() => openArtistPopup(a.artist_id)}    
+                />
+                  
               ) : (
                 <div>N/A</div>
               )}
 
               <div>
-                <div className="text-white text-md tracking-wide cursor-pointer hover:underline">{a.artist_name}</div>
+                <div 
+                  className="text-white text-md tracking-wide cursor-pointer hover:underline"
+                  onClick={() => openArtistPopup(a.artist_id)}
+                >
+                    {a.artist_name}
+                </div>
                 <div className="flex flex-row text-[8pt] gap-2">
                   <div className="text-[#1DB954] font-semibold">{formatNumber(a.artist_follower_total)}</div>
                   <div className="text-[#535353] font-semibold">Followers</div>
@@ -225,15 +279,30 @@ export default function Profile() {
             <div className="flex justify-between items-center">
               <div className="flex flew-row items-center gap-5">
                 {t.album_image ? (
-                  <img src={t.album_image} alt="not image found" className="w-12 h-12 object-cover cursor-pointer" />
+                  <img 
+                    src={t.album_image} 
+                    alt="not image found" 
+                    className="w-12 h-12 object-cover cursor-pointer" 
+                    onClick={() => openTrackPopup(t.track_id)}    
+                  />
                 ) : (
                   <div>N/A</div>
                 )}
 
                 <div className="flex flex-col gap-1">
-                  <div className="text-white text-md tracking-wide cursor-pointer hover:underline">{t.track_name}</div>
+                  <div 
+                    className="text-white text-md tracking-wide cursor-pointer hover:underline"
+                    onClick={() => openTrackPopup(t.track_id)}  
+                  >
+                    {t.track_name}
+                  </div>
                   <div className="flex flex-row text-[8pt] items-center text-white text-xs gap-1">
-                    <div>{t.artist_name}</div>
+                    <div
+                      className="cursor-pointer hover:underline"
+                      onClick={() => {if (t.artist_id) openArtistPopup(t.artist_id)}}
+                    >
+                      {t.artist_name}
+                    </div>
                     <GoDotFill size={7}/>
                     <div>{t.album_name}</div>
                   </div>
@@ -245,8 +314,23 @@ export default function Profile() {
             </div>
           ))}
         </div>
-
       </div>
+      <ArtistPopup
+        open={openPopup}
+        artist={selectedArist}
+        onClose={() => {
+          setOpenPopup(false);
+          setSelectedArtist(null);
+        }}
+      />
+      <TrackPopup
+        open={openPopupTrack}
+        track={selectedTrack}
+        onClose={() => {
+          setOpenPopupTrack(false);
+          setSelectedTrack(null);
+        }}
+      />
     </div>
   )
 }

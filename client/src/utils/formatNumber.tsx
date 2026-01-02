@@ -15,3 +15,13 @@ export function formatDuration(ms: number): string {
 export function formatRank(i: number){
   return String(i + 1).padStart(2, "0");
 }
+
+export function oneGenre(genres: string[] | undefined){
+  if (!genres || genres.length === 0) return "Unknown";
+  return genres[0];
+}
+
+export function releaseYear(date: string | null){
+  if (!date) return "Unknown";
+  return date.slice(0, 4);
+}

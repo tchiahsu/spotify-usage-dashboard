@@ -201,7 +201,8 @@ export async function getTopTracks(req: Request, res: Response) {
       album_id: t.album.id,
       album_name: t.album.name,
       album_image: t.album.images[0]?.url ?? null,
-      artist_name: t.artists.map(a => a.name).join(", ")
+      artist_name: t.artists.map(a => a.name).join(", "),
+      artist_id: t.artists[0]?.id ?? null
     }));
 
     return res.json(topTrackSummary);
@@ -273,7 +274,8 @@ export async function getRecentlyPlayed(req: Request, res: Response) {
       track_duration: t.track.duration_ms,
       album_name: t.track.album.name,
       album_image: t.track.album.images[0]?.url ?? null,
-      artist_name: t.track.artists.map((a) => a.name).join(", ")
+      artist_name: t.track.artists.map((a) => a.name).join(", "),
+      artist_id: t.track.artists[0]?.id ?? null
     }));
 
     return res.json(recentTrackSummary);
@@ -296,7 +298,7 @@ export async function getArtistDetails(req: Request, res: Response) {
   try {
     const accessToken = req.cookies.spotify_access_token as string | undefined;
     const refreshToken = req.cookies.spotify_refresh_token as string | undefined;
-    const id = req.params.id
+    const id = req.query.id as string | undefined;
 
     if (!id) {
       return res.status(401).json({ error: "Artist ID not found." })
@@ -373,10 +375,10 @@ export async function getTrackDetails(req: Request, res: Response) {
   try {
     const accessToken = req.cookies.spotify_access_token as string | undefined;
     const refreshToken = req.cookies.spotify_refresh_token as string | undefined;
-    const id = req.params.id
+    const id = req.query.id as string | undefined;
 
     if (!id) {
-      return res.status(401).json({ error: "Track ID not found." })
+      return res.status(401).json({ error: "Artist ID not found." })
     }
 
     if (!accessToken && !refreshToken) {
@@ -426,6 +428,7 @@ export async function getTrackDetails(req: Request, res: Response) {
       track_name: userData.name,
       track_popularity: userData.popularity,
       track_duration: userData.duration_ms,
+      track_date: userData.album.release_date ?? null,
       artist_names: userData.artists.map((a) => a.name).join(", "),
       album_id: userData.album.id,
       album_name: userData.album.name,
@@ -652,6 +655,7 @@ export async function getPlaylistTracks(req: Request, res: Response) {
       artist_name: p.track!.artists.map((a) => a.name).join(", "),
       album_image: p.track!.album.images?.[0]?.url ?? null,
       track_duration: p.track!.duration_ms,
+      artist_id: p.track!.artists[0]?.id ?? null
     }));
 
     return res.json({

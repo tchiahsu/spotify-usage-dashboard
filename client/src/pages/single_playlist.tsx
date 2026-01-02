@@ -3,7 +3,10 @@ import { useNavigate, useParams } from "react-router-dom";
 import { GoDotFill } from "react-icons/go";
 import { formatDuration } from "../utils/formatNumber";
 import type { UserPlaylistsSummary, PlaylistTrackItem, PlaylistAllTracks } from "../types/playlist";
-
+import type { ArtistSummary} from "../types/artist";
+import type { TrackSummary } from "../types/track";
+import ArtistPopup from "../components/ArtistPopup";
+import TrackPopup from "../components/TrackPopup";
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_ORIGIN ?? "http://127.0.0.1:3000";
 
@@ -14,6 +17,10 @@ export default function SinglePlaylist() {
   const [error, setError] = useState<string | null>(null);
   const [loadingPlaylists, setLoadingPlaylists] = useState(true);
   const [loadingTracks, setLoadingTracks] = useState(true);
+  const [openPopup, setOpenPopup] = useState(false);
+  const [selectedArist, setSelectedArtist] = useState<ArtistSummary | null>(null);
+  const [openPopupTrack, setOpenPopupTrack] = useState(false);
+  const [selectedTrack, setSelectedTrack] = useState<TrackSummary | null>(null);
 
   const navigate = useNavigate();
 
@@ -73,6 +80,44 @@ export default function SinglePlaylist() {
     }
   }
 
+  async function openArtistPopup(artistId: string) {
+    try{
+        const response = await fetch(`${BACKEND_URL}/artist/summary?id=${artistId}`, {
+          method: "GET",
+          credentials: "include",
+        });
+  
+        if(!response.ok) {
+          throw new Error("Failed to get artist info");
+        }
+  
+        const data: ArtistSummary = await response.json();
+        setSelectedArtist(data);
+        setOpenPopup(true);
+      } catch (e) {
+        console.error("Error loading artist info:", e);
+      }
+  }
+
+  async function openTrackPopup(trackId: string) {
+    try{
+      const response = await fetch(`${BACKEND_URL}/track/summary?id=${trackId}`, {
+        method: "GET",
+        credentials: "include",
+      });
+
+      if(!response.ok) {
+        throw new Error("Failed to get track info");
+      }
+
+      const data: TrackSummary = await response.json();
+      setSelectedTrack(data);
+      setOpenPopupTrack(true);
+    } catch (e) {
+      console.error("Error loading track info:", e);
+    } 
+  }
+
   useEffect(() => {
     if (!playlistId) {
       setError("Playlist id is missing.")
@@ -126,14 +171,29 @@ export default function SinglePlaylist() {
             <div className="flex justify-between items-center">
               <div className="flex flew-row items-center gap-5">
                 {t.album_image ? (
-                  <img src={t.album_image} alt="not image found" className="w-12 h-12 object-cover cursor-pointer" />
+                  <img 
+                    src={t.album_image} 
+                    alt="not image found" 
+                    className="w-12 h-12 object-cover cursor-pointer"
+                    onClick={() => openTrackPopup(t.track_id)} 
+                  />
                 ) : (
                   <div>N/A</div>
                 )}
                 <div className="min-w-0">
-                  <div className="text-white truncate cursor-pointer hover:underline">{t.track_name}</div>
+                  <div 
+                    className="text-white truncate cursor-pointer hover:underline"
+                    onClick={() => openTrackPopup(t.track_id)}
+                  >
+                    {t.track_name}
+                  </div>
                   <div className="flex items-center gap-1 text-[#b3b3b3] text-xs min-w-0">
-                    <div className="truncate">{t.artist_name}</div>
+                    <div 
+                      className="truncate cursor-pointer hover:underline"
+                      onClick={() => {if (t.artist_id) openArtistPopup(t.artist_id)}}
+                    >
+                      {t.artist_name}
+                    </div>
                     <GoDotFill size={7}/>
                     <div className="truncate">{t.track_album}</div>
                   </div>
@@ -145,7 +205,23 @@ export default function SinglePlaylist() {
             </div>
           ))}
         </div>
-      </div>  
+      </div> 
+      <ArtistPopup
+        open={openPopup}
+        artist={selectedArist}
+        onClose={() => {
+          setOpenPopup(false);
+          setSelectedArtist(null);
+        }}
+      />
+      <TrackPopup
+        open={openPopupTrack}
+        track={selectedTrack}
+        onClose={() => {
+          setOpenPopupTrack(false);
+          setSelectedTrack(null);
+        }}
+      /> 
     </div>
   )
 }
