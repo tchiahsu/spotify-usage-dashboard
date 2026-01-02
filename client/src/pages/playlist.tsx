@@ -69,7 +69,7 @@ export default function Playlist() {
             <Link to={`/playlists/${p.playlist_id}`} className="flex flex-col gap-2">
               <div className="h-50 w-full rounded-xl overflow-hidden">
                 {p.playlist_image ? (
-                  <img src={p.playlist_image} alt="not image found" className="h-full w-full object-cover cursor-pointer" />
+                  <img src={p.playlist_image} alt="not image found" className="h-full w-full object-cover cursor-pointer hover:scale-110 transition-all duration-200" />
                 ) : (
                   <div>N/A</div>
                 )}

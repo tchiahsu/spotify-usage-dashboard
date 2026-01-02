@@ -196,7 +196,7 @@ export default function Profile() {
           <img
             src={profile.imageUrl}
             alt="Profile"
-            className="h-42 w-42 rounded-full object-cover cursor-pointer"
+            className="h-42 w-42 rounded-full object-cover"
           />
         ) : (
           <div className="flex justify-center items-center">
@@ -239,7 +239,7 @@ export default function Profile() {
                 <img 
                   src={a.artist_images} 
                   alt="not image found" 
-                  className="w-12 h-12 object-cover rounded-full cursor-pointer" 
+                  className="w-12 h-12 object-cover rounded-full cursor-pointer hover:scale-110 transition-all duration-200" 
                   onClick={() => openArtistPopup(a.artist_id)}    
                 />
                   
@@ -276,7 +276,7 @@ export default function Profile() {
                   <img 
                     src={t.album_image} 
                     alt="not image found" 
-                    className="w-12 h-12 object-cover cursor-pointer" 
+                    className="w-12 h-12 object-cover cursor-pointer hover:scale-110 transition-all duration-200" 
                     onClick={() => openTrackPopup(t.track_id)}    
                   />
                 ) : (

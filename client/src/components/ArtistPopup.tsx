@@ -47,7 +47,7 @@ export default function ArtistPopup({open, artist, onClose}: ArtistPopupProps){
                                 {artist.artist_popularity}
                             </div>
                             <div className="text-[#b3b3b3] text-xs mt-1">
-                                POPULARITY
+                                POPULARITY SCORE
                             </div>
                         </div>
                     </div>

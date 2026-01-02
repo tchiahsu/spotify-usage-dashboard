@@ -81,11 +81,13 @@ export default function Artists() {
     <div className="flex flex-col gap-15 mx-30 my-25 justify-baseline">
       <div className="flex items-start justify-between">
         {/* Page Title */}
-        <div className="flex flex-col gap-3">
-          <div className="font-bold text-white text-5xl tracking-wide">Top Artists</div>
+        <div className="flex flex-col gap-3 w-full">
+          <div className="flex flex-row justify-between items-center">
+            <div className="font-bold text-white text-5xl tracking-wide">Top Artists</div>
+            <TimeRangeButtons value={range} onChange={setRange}/>
+          </div>
           <div className="text-[#535353] font-semibold text-lg">Here are your most-played voices!</div>
         </div>
-        <TimeRangeButtons value={range} onChange={setRange}/>
       </div>
       
       {/* Artist Information */}
@@ -100,7 +102,7 @@ export default function Artists() {
                 <img 
                   src={a.artist_images ?? undefined} 
                   alt="not image found" 
-                  className="h-full w-full object-cover cursor-pointer" 
+                  className="h-full w-full object-cover cursor-pointer hover:scale-110 transition-all duration-200" 
                   onClick={() => openArtistPopup(a.artist_id)}  
                 />
               ) : (

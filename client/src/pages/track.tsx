@@ -105,7 +105,7 @@ export default function Track() {
       <div className="flex items-start justify-between">
         {/* Page Title */}
         <div className="flex flex-col gap-3">
-          <div className="font-bold text-white text-5xl tracking-wide">Top Artists</div>
+          <div className="font-bold text-white text-5xl tracking-wide">Top Tracks</div>
           <div className="text-[#535353] font-semibold text-lg">Here are your most-played voices!</div>
         </div>
         <TimeRangeButtons value={range} onChange={setRange}/>
@@ -120,7 +120,7 @@ export default function Track() {
                 <img 
                   src={t.album_image} 
                   alt="not image found" 
-                  className="w-16 h-16 object-cover rounded-md cursor-pointer"
+                  className="w-16 h-16 object-cover rounded-md cursor-pointer hover:scale-110 transition-all duration-200"
                   onClick={() => openTrackPopup(t.track_id)} 
                 />
               ) : (

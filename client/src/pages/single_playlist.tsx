@@ -174,7 +174,7 @@ export default function SinglePlaylist() {
                   <img 
                     src={t.album_image} 
                     alt="not image found" 
-                    className="w-12 h-12 object-cover cursor-pointer"
+                    className="w-12 h-12 object-cover cursor-pointer hover:scale-110 transition-all duration-200"
                     onClick={() => openTrackPopup(t.track_id)} 
                   />
                 ) : (

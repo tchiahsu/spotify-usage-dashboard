@@ -10,31 +10,31 @@ export default function TimeRangeButtons(props: ButtonProps) {
                 onClick={() => onChange("long")}
                 className={
                     value === "long"
-                        ? "text-white text-lg font-semibold underline"
-                        : "text-white text-lg font-semibold opacity-70 hover:opacity-100 cursor-pointer"
+                        ? "text-black text-sm font-semibold px-5 py-1 bg-[#1DB954] rounded-full transition-all duration-200"
+                        : "text-white text-sm font-semibold px-5 py-1 bg-[#535353] rounded-full opacity-70 hover:opacity-100 cursor-pointer"
                 }
             >
-                1 Year
+                Last 12 months
             </button>
             <button
                 onClick={() => onChange("medium")}
                 className={
                     value === "medium"
-                        ? "text-white text-lg font-semibold underline"
-                        : "text-white text-lg font-semibold opacity-70 hover:opacity-100 cursor-pointer"
+                        ? "text-black text-sm font-semibold px-5 py-1 bg-[#1DB954] rounded-full transition-all duration-200"
+                        : "text-white text-sm font-semibold px-5 py-1 bg-[#535353] rounded-full opacity-70 hover:opacity-100 cursor-pointer"
                 }
             >
-                6 Months
+                Last 6 months
             </button>
             <button
                 onClick={() => onChange("short")}
                 className={
                     value === "short"
-                        ? "text-white text-lg font-semibold underline"
-                        : "text-white text-lg font-semibold opacity-70 hover:opacity-100 cursor-pointer"
+                        ? "text-black text-sm font-semibold px-5 py-1 bg-[#1DB954] rounded-full transition-all duration-200"
+                        : "text-white text-sm font-semibold px-5 py-1 bg-[#535353] rounded-full opacity-70 hover:opacity-100 cursor-pointer"
                 }
             >
-                1 Month
+                Last 4 weeks
             </button>
         </div>
     )

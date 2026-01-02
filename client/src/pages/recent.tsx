@@ -116,7 +116,7 @@ export default function Recent() {
                 <img 
                   src={t.album_image} 
                   alt="not image found" 
-                  className="w-16 h-16 object-cover rounded-md cursor-pointer"
+                  className="w-16 h-16 object-cover rounded-md cursor-pointer hover:scale-110 transition-all duration-200"
                   onClick={() => openTrackPopup(t.track_id)}
                 />
               ) : (
