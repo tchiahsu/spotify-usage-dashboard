@@ -21,7 +21,7 @@ export default function Login() {
           Connect Spotify
         </a>
       </div>
-      <p className="text-[#535353] text-sm mb-4">
+      <p className="text-[#535353] text-xs mb-4">
         Built using the Spotify Web API | Not affiliated with Spotify. <br/>
         © 2026 Tony Hsu Tai & Mishell Cardenas Espinosa
       </p>
