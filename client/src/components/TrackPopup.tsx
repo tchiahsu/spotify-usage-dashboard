@@ -32,14 +32,12 @@ export default function TrackPopup({open, track, onClose}: TrackPopupProps){
                         <div className="text-[#b3b3b3] text-sm font-semibold">
                             {track.album_name}
                         </div>
-                        <a
+                        <button
                             className="inline-flex w-fit px-4 py-2 mt-4 rounded-3xl bg-[#1DB954] text-white text-sm font-semibold hover:scale-105 active:scale-100"
-                            href=""
-                            target="_blank"
-                            rel="nonreferrer"
+                            onClick={() => { window.open(`https://open.spotify.com/track/${track.track_id}`)}}
                         >
-                            Play in Spotify
-                        </a>
+                            Play on Spotify
+                        </button>
                     </div>
                 </div>
                 <div className="mt-12 mb-2 grid grid-cols-1 md:grid-cols-3 gap-8 text-center w-full">
