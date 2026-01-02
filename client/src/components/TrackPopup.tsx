@@ -8,7 +8,7 @@ export default function TrackPopup({open, track, onClose}: TrackPopupProps){
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#212121]/80 p-6">
-            <div className="relative w-full max-w-2xl rounded-[28px] bg-[#121212] px-10 py-10">
+            <div className="relative w-full max-w-3xl rounded-[28px] bg-[#121212] px-10 py-12">
                 <button
                     type="button"
                     onClick={onClose}
@@ -33,7 +33,7 @@ export default function TrackPopup({open, track, onClose}: TrackPopupProps){
                             {track.album_name}
                         </div>
                         <a
-                            className="inline-flex w-fit px-4 py-1 mt-4 rounded-3xl bg-[#1DB954] text-white text-sm font-semibold mt-2 hover:scale-105 active:scale-100"
+                            className="inline-flex w-fit px-4 py-2 mt-4 rounded-3xl bg-[#1DB954] text-white text-sm font-semibold hover:scale-105 active:scale-100"
                             href=""
                             target="_blank"
                             rel="nonreferrer"
@@ -42,7 +42,7 @@ export default function TrackPopup({open, track, onClose}: TrackPopupProps){
                         </a>
                     </div>
                 </div>
-                <div className="mt-4 mb-2 grid grid-cols-1 md:grid-cols-3 gap-8 text-center w-full">
+                <div className="mt-12 mb-2 grid grid-cols-1 md:grid-cols-3 gap-8 text-center w-full">
                     <div>
                         <div className="text-[#1db954] text-xl font-semibold">
                             {releaseYear(track.track_date)}

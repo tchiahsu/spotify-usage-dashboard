@@ -8,7 +8,7 @@ export default function ArtistPopup({open, artist, onClose}: ArtistPopupProps){
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#212121]/80 p-6">
-            <div className="relative w-full max-w-2xl rounded-[28px] bg-[#121212] px-10 py-10">
+            <div className="relative w-full max-w-2xl rounded-[28px] bg-[#121212] px-10 py-12">
                 <button
                     type="button"
                     onClick={onClose}
