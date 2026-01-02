@@ -1,11 +1,12 @@
 import { useState, useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 import { formatDuration } from "../utils/formatNumber";
-
 import type { TopTrackSummary, TrackSummary } from "../types/track";
 import type { ArtistSummary} from "../types/artist";
+import type { Range } from "../types/time_range";
 import ArtistPopup from "../components/ArtistPopup";
 import TrackPopup from "../components/TrackPopup";
+import TimeRangeButtons from "../components/TimeRangeButtons";
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_ORIGIN ?? "http://127.0.0.1:3000";
 
@@ -17,12 +18,13 @@ export default function Track() {
   const [selectedArist, setSelectedArtist] = useState<ArtistSummary | null>(null);
   const [openPopupTrack, setOpenPopupTrack] = useState(false);
   const [selectedTrack, setSelectedTrack] = useState<TrackSummary | null>(null);
-
+  const [range, setRange] = useState<Range>("long");
+  
   const navigate = useNavigate();
 
-  async function getTopTracks() {
+  async function getTopTracks(selectedRange: Range) {
     try {
-      const response = await fetch(`${BACKEND_URL}/track/50`, {
+      const response = await fetch(`${BACKEND_URL}/track/50?range=${selectedRange}`, {
         method: "GET",
         credentials: "include",
       })
@@ -85,8 +87,8 @@ export default function Track() {
   }
 
   useEffect(() => {
-    getTopTracks();
-  }, []);
+    getTopTracks(range);
+  }, [range]);
 
   if (loading) {
     return (
@@ -100,10 +102,13 @@ export default function Track() {
 
   return (
     <div className="flex flex-col gap-15 mx-30 my-25 justify-baseline">
-      {/* Page Title */}
-      <div className="flex flex-col gap-3">
-        <div className="font-bold text-white text-5xl tracking-wide">Top Tracks</div>
-        <div className="text-[#535353] font-semibold text-lg">The soundtrack of your moments.</div>
+      <div className="flex items-start justify-between">
+        {/* Page Title */}
+        <div className="flex flex-col gap-3">
+          <div className="font-bold text-white text-5xl tracking-wide">Top Artists</div>
+          <div className="text-[#535353] font-semibold text-lg">Here are your most-played voices!</div>
+        </div>
+        <TimeRangeButtons value={range} onChange={setRange}/>
       </div>
 
       {/* Track Information */}

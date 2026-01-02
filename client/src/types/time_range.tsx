@@ -1,0 +1,1 @@
+export type Range = "long" | "medium" | "short";
