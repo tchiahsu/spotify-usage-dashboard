@@ -78,7 +78,7 @@ export default function Artists() {
   if (!topArtists) return null;
 
   return (
-    <div className="flex flex-col gap-15 mx-10 my-10 md:mx-30 md:my-25 justify-baseline">
+    <div className="flex flex-col gap-15 mx-10 my-10 sm:mx-20 md:my-25 justify-baseline">
       <div className="flex items-start justify-between">
         {/* Page Title */}
         <div className="flex flex-col gap-3 w-full">

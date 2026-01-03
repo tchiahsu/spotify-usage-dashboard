@@ -143,7 +143,7 @@ export default function SinglePlaylist() {
   if (!selectedPlaylist) return null;
 
   return (
-    <div className="mx-10 my-10 md:mx-40 md:my-25">
+    <div className="mx-10 my-10 sm:mx-20 md:my-25">
       <div className="grid grid-cols-1 lg:grid-cols-[210px_1fr] gap-20 lg:gap-35">
         {/* Playlist Info */}
         <div className="flex flex-col items-center text-center">
