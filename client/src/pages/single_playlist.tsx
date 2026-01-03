@@ -8,7 +8,7 @@ import type { TrackSummary } from "../types/track";
 import ArtistPopup from "../components/ArtistPopup";
 import TrackPopup from "../components/TrackPopup";
 
-const BACKEND_URL = import.meta.env.VITE_BACKEND_ORIGIN ?? "http://127.0.0.1:3000";
+const BACKEND_URL = import.meta.env.VITE_BACKEND_ORIGIN ?? "https://spotifylisten.vercel.app/api";
 
 export default function SinglePlaylist() {
   const { playlistId } = useParams<{ playlistId: string }>();

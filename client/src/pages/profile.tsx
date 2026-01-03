@@ -10,7 +10,7 @@ import type { ArtistSummary, TopArtistSummary } from "../types/artist";
 import ArtistPopup from "../components/ArtistPopup";
 import TrackPopup from "../components/TrackPopup";
 
-const BACKEND_URL = import.meta.env.VITE_BACKEND_ORIGIN ?? "http://127.0.0.1:3000";
+const BACKEND_URL = import.meta.env.VITE_BACKEND_ORIGIN ?? "https://spotifylisten.vercel.app/api";
 
 export default function Profile() {
   const [profile, setProfile] = useState<ProfileSummary | null>(null);

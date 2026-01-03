@@ -8,7 +8,7 @@ import ArtistPopup from "../components/ArtistPopup";
 import TrackPopup from "../components/TrackPopup";
 import TimeRangeButtons from "../components/TimeRangeButtons";
 
-const BACKEND_URL = import.meta.env.VITE_BACKEND_ORIGIN ?? "http://127.0.0.1:3000";
+const BACKEND_URL = import.meta.env.VITE_BACKEND_ORIGIN ?? "https://spotifylisten.vercel.app/api";
 
 export default function Track() {
   const [topTracks, setTopTracks] = useState<TopTrackSummary | null>(null);
