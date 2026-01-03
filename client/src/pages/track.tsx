@@ -52,11 +52,11 @@ export default function Track() {
           method: "GET",
           credentials: "include",
         });
-  
+
         if(!response.ok) {
           throw new Error("Failed to get artist info");
         }
-  
+
         const data: ArtistSummary = await response.json();
         setSelectedArtist(data);
         setOpenPopup(true);
