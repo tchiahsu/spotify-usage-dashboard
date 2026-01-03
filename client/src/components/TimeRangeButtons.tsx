@@ -14,7 +14,8 @@ export default function TimeRangeButtons(props: ButtonProps) {
                         : "text-white text-xs font-semibold px-5 py-2 bg-[#535353] rounded-full opacity-70 hover:opacity-100 cursor-pointer"
                 }
             >
-                Last 12 months
+                <div className="hidden md:block">Last 12 months</div>
+                <div className="block md:hidden">12 months</div>
             </button>
             <button
                 onClick={() => onChange("medium")}
@@ -24,7 +25,8 @@ export default function TimeRangeButtons(props: ButtonProps) {
                         : "text-white text-xs font-semibold px-5 py-2 bg-[#535353] rounded-full opacity-70 hover:opacity-100 cursor-pointer"
                 }
             >
-                Last 6 months
+                <div className="hidden md:block">Last 6 months</div>
+                <div className="block md:hidden">6 months</div>
             </button>
             <button
                 onClick={() => onChange("short")}
@@ -34,7 +36,8 @@ export default function TimeRangeButtons(props: ButtonProps) {
                         : "text-white text-xs font-semibold px-5 py-2 bg-[#535353] rounded-full opacity-70 hover:opacity-100 cursor-pointer"
                 }
             >
-                Last 4 weeks
+                <div className="hidden md:block">Last 4 weeks</div>
+                <div className="block md:hidden">4 weeks</div>
             </button>
         </div>
     )

@@ -78,24 +78,25 @@ export default function Artists() {
   if (!topArtists) return null;
 
   return (
-    <div className="flex flex-col gap-15 mx-30 my-25 justify-baseline">
+    <div className="flex flex-col gap-15 mx-10 my-10 md:mx-30 md:my-25 justify-baseline">
       <div className="flex items-start justify-between">
         {/* Page Title */}
         <div className="flex flex-col gap-3 w-full">
           <div className="flex flex-row justify-between items-end">
-            <div className="font-bold text-white text-5xl tracking-wide">Top Artists</div>
-            <TimeRangeButtons value={range} onChange={setRange}/>
+            <div className="font-bold text-white text-4xl md:text-5xl tracking-wide">Top Artists</div>
+            <div className="hidden lg:block"><TimeRangeButtons value={range} onChange={setRange} /></div>
           </div>
-          <div className="text-[#535353] font-semibold text-lg">Here are your most-played voices!</div>
+          <div className="text-[#535353] font-semibold text-md md:text-lg">Here are your most-played voices!</div>
+          <div className="block lg:hidden"><TimeRangeButtons value={range} onChange={setRange} /></div>
         </div>
       </div>
       
       {/* Artist Information */}
-      <div className="grid grid-cols-5 gap-3">
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3">
         {topArtists?.map((a: TopArtist, i: number) => (
           <div
             key={a.artist_name}
-            className="rounded-2xl bg-[#535353] p-4 mt-3"
+            className="rounded-2xl bg-[#535353] p-3 md:p-4 mt-3"
           >
             <div className="h-40 w-full rounded-xl overflow-hidden">
               {a.artist_images ? (
@@ -111,7 +112,7 @@ export default function Artists() {
             </div>
 
             <div className="mt-4 flex items-center gap-3">
-              <div className="text-[#1db954] font-black text-4xl tracking-tight leading-none">
+              <div className="text-[#1db954] font-black text-3xl xl:text-4xl tracking-tight leading-none">
                 {formatRank(i)}
               </div>
               <div className="flex flex-col min-w-0 gap-0.5">
@@ -122,7 +123,7 @@ export default function Artists() {
                   {a.artist_name}
                 </div>
                 <div className="flex flex-col gap-0.5">
-                  <div className="text-[#b3b3b3] text-[11px] leading-none font-bold">
+                  <div className="text-[#b3b3b3] text-[11px] truncate leading-none font-bold">
                     {formatNumber(a.artist_follower_total)} followers
                   </div>            
                 </div>

@@ -100,17 +100,17 @@ export default function Recent() {
   if (!recentTracks) return null;
 
   return (
-    <div className="flex flex-col gap-15 mx-30 my-25 justify-baseline">
+    <div className="flex flex-col gap-15 mx-10 my-10 md:mx-30 md:my-25 justify-baseline">
       {/* Page Title */}
       <div className="flex flex-col gap-3">
-        <div className="font-bold text-white text-5xl tracking-wide">Recently Played</div>
-        <div className="text-[#535353] font-semibold text-lg">What you have been listening to as of late...</div>
+        <div className="font-bold text-white text-4xl md:text-5xl tracking-wide">Recently Played</div>
+        <div className="text-[#535353] font-semibold text-md md:text-lg">What you have been listening to as of late...</div>
       </div>
 
       {/* Track Information */}
       <div className="flex flex-col gap-5">
         {recentTracks?.map((t) => (
-          <div className="grid grid-cols-[2fr_1fr_1fr] items-center">
+          <div className="flex justify-between md:grid md:grid-cols-[2fr_1fr_1fr] items-center">
             <div className="flex flew-row items-center gap-5">
               {t.album_image ? (
                 <img 
@@ -137,7 +137,7 @@ export default function Recent() {
                 </div>
               </div>
             </div>
-            <div className="flex flex-1 text-[#b3b3b3]">{t.album_name}</div>
+            <div className="hidden md:flex flex-1 text-[#b3b3b3]">{t.album_name}</div>
             <div className="flex justify-end text-white font-semibold text-sm">
               {formatDuration(t.track_duration)}
             </div>

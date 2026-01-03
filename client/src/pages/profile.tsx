@@ -188,9 +188,9 @@ export default function Profile() {
   if (!profile) return null;
 
   return (
-    <div className="flex flex-col gap-15 mx-40 my-25 justify-baseline">
+    <div className="flex flex-col gap-15 mx-10 my-10 md:mx-40 md:my-25 justify-baseline">
       {/* Profile Information */}
-      <div className="bg-[#212121] flex flex-row items-center gap-10 w-full">
+      <div className="bg-[#212121] flex flex-col md:flex-row items-center gap-10 w-full">
         {/* Profile Image */}
         {profile.imageUrl ? (
           <img
@@ -226,7 +226,7 @@ export default function Profile() {
       </div>
 
       {/* User Top Data */}
-      <div className="grid grid-cols-2 gap-20 w-full">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-20 w-full">
         {/* Top Artists */}
         <div className="flex flex-col gap-5">
           <div className="flex flex-row justify-between items-center w-full">

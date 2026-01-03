@@ -143,8 +143,8 @@ export default function SinglePlaylist() {
   if (!selectedPlaylist) return null;
 
   return (
-    <div className="mx-40 my-25">
-      <div className="grid grid-cols-[210px_1fr] gap-35">
+    <div className="mx-10 my-10 md:mx-40 md:my-25">
+      <div className="grid grid-cols-1 lg:grid-cols-[210px_1fr] gap-20 lg:gap-35">
         {/* Playlist Info */}
         <div className="flex flex-col items-center text-center">
           <div className="w-[320px] h-80 rounded-3xl overflow-hidden">
@@ -168,19 +168,19 @@ export default function SinglePlaylist() {
         {/* Top Tracks */}
         <div className="flex flex-col gap-5">
           {playlistTracks?.map((t: PlaylistTrackItem) => (
-            <div className="flex justify-between items-center">
-              <div className="flex flew-row items-center gap-5">
+            <div key={t.track_id} className="flex items-center justify-between">
+              <div className="flex items-center gap-5 flex-1 min-w-0">
                 {t.album_image ? (
                   <img 
                     src={t.album_image} 
                     alt="not image found" 
-                    className="w-12 h-12 object-cover cursor-pointer hover:scale-110 transition-all duration-200"
+                    className="w-12 h-12 object-cover cursor-pointer hover:scale-110 transition-all duration-200 shrink-0"
                     onClick={() => openTrackPopup(t.track_id)} 
                   />
                 ) : (
                   <div>N/A</div>
                 )}
-                <div className="min-w-0">
+                <div className="min-w-0 flex flex-col">
                   <div 
                     className="text-white truncate cursor-pointer hover:underline"
                     onClick={() => openTrackPopup(t.track_id)}
@@ -199,7 +199,7 @@ export default function SinglePlaylist() {
                   </div>
                 </div>
               </div>
-              <div className="text-[#b3b3b3] font-semibold text-xs">
+              <div className="text-[#b3b3b3] font-semibold text-xs shrink-0 w-14 text-right">
                 {formatDuration(t.track_duration)}
               </div>
             </div>
