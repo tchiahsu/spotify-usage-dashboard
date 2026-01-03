@@ -6,7 +6,7 @@ import type { Range } from "../types/time_range";
 import ArtistPopup from "../components/ArtistPopup";
 import TimeRangeButtons from "../components/TimeRangeButtons";
 
-const BACKEND_URL = import.meta.env.VITE_BACKEND_ORIGIN ?? "http://127.0.0.1:3000";
+const BACKEND_URL = import.meta.env.VITE_BACKEND_ORIGIN ?? "https://spotifylisten.vercel.app/api";
 
 export default function Artists() {
   const [topArtists, setTopArtists] = useState<TopArtistSummary | null>(null);

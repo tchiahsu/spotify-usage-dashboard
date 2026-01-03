@@ -1,6 +1,6 @@
 import logo from "../assets/spotify_white.png";
 
-const BACKEND_URL = import.meta.env.VITE_BACKEND_ORIGIN ?? "http://127.0.0.1:3000";
+const BACKEND_URL = import.meta.env.VITE_BACKEND_ORIGIN ?? "https://spotifylisten.vercel.app/api";
 
 export default function Login() {
   return (

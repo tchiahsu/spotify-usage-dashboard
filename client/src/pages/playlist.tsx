@@ -4,7 +4,7 @@ import { GoDotFill } from "react-icons/go";
 
 import type { UserPlaylistItem, UserPlaylistsSummary } from "../types/playlist";
 
-const BACKEND_URL = import.meta.env.VITE_BACKEND_ORIGIN ?? "http://127.0.0.1:3000";
+const BACKEND_URL = import.meta.env.VITE_BACKEND_ORIGIN ?? "https://spotifylisten.vercel.app/api";
 
 export default function Playlist() {
   const [playlists, setPlaylists] = useState<UserPlaylistsSummary | null>(null);
