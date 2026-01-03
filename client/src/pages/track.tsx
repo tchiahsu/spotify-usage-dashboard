@@ -93,7 +93,7 @@ export default function Track() {
   if (loading) {
     return (
       <div className="fixed inset-0 z-50 flex items-center justify-center">
-        <div className="h-20 w-20 animate-spin rounded-full border-10 border-[#1DB954] border-t-[#212121]" />
+        <div className="h-15 w-15 animate-spin rounded-full border-5 border-[#1DB954] border-t-[#212121]" />
       </div>
     )
   };
@@ -101,48 +101,51 @@ export default function Track() {
   if (!topTracks) return null;
 
   return (
-    <div className="flex flex-col gap-15 mx-30 my-25 justify-baseline">
+    <div className="flex flex-col gap-15 mx-10 my-10 sm:mx-20 md:my-25 justify-baseline">
       <div className="flex items-start justify-between">
         {/* Page Title */}
-        <div className="flex flex-col gap-3">
-          <div className="font-bold text-white text-5xl tracking-wide">Top Tracks</div>
-          <div className="text-[#535353] font-semibold text-lg">Here are your most-played voices!</div>
+        <div className="flex flex-col gap-3 w-full">
+          <div className="flex flex-row justify-between items-end">
+            <div className="font-bold text-white text-4xl md:text-5xl tracking-wide">Top Tracks</div>
+            <div className="hidden lg:block"><TimeRangeButtons value={range} onChange={setRange} /></div>
+          </div>
+          <div className="text-[#535353] font-semibold text-md md:text-lg">Here are your most-played voices!</div>
+          <div className="block lg:hidden"><TimeRangeButtons value={range} onChange={setRange} /></div>
         </div>
-        <TimeRangeButtons value={range} onChange={setRange}/>
       </div>
 
       {/* Track Information */}
       <div className="flex flex-col gap-5">
         {topTracks?.map((t) => (
-          <div className="grid grid-cols-[2fr_1fr_1fr] items-center">
-            <div className="flex flew-row items-center gap-5">
+          <div className="flex justify-between md:grid md:grid-cols-[2fr_1fr_1fr] gap-2 items-center">
+            <div className="flex flew-1 min-w-0 items-center gap-5">
               {t.album_image ? (
-                <img 
+                <img
                   src={t.album_image} 
                   alt="not image found" 
-                  className="w-16 h-16 object-cover rounded-md cursor-pointer hover:scale-110 transition-all duration-200"
+                  className="w-16 h-16 shrink-0 object-cover rounded-md cursor-pointer hover:scale-110 transition-all duration-200"
                   onClick={() => openTrackPopup(t.track_id)} 
                 />
               ) : (
                 <div>N/A</div>
               )}
-              <div className="flex flex-col gap-2">
+              <div className="flex min-w-0 flex-col gap-2">
                 <div 
-                  className="text-white text-md font-semibold tracking-wide overflow-clip cursor-pointer hover:underline"
+                  className="min-w-0 truncate text-white text-md font-semibold tracking-wide overflow-clip cursor-pointer hover:underline"
                   onClick={() => openTrackPopup(t.track_id)}
                 >
                   {t.track_name}
                 </div>
                 <div 
-                  className="text-xs items-center text-white gap-1 cursor-pointer hover:underline"
+                  className="min-w-0 truncate text-xs items-center text-white gap-1 cursor-pointer hover:underline"
                   onClick={() => {if (t.artist_id) openArtistPopup(t.artist_id)}}
                 >
                   {t.artist_name}
                 </div>
               </div>
             </div>
-            <div className="flex flex-1 text-[#b3b3b3]">{t.album_name}</div>
-            <div className="flex justify-end text-white font-semibold text-sm">
+            <div className="hidden min-w-0 truncate md:flex flex-1 text-[#b3b3b3]">{t.album_name}</div>
+            <div className="flex items-center justify-self-end shrink-0 w-12 text-white font-semibold text-sm">
               {formatDuration(t.track_duration)}
             </div>
           </div>

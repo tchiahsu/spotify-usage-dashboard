@@ -180,7 +180,7 @@ export default function Profile() {
   if (loading) {
     return (
       <div className="fixed inset-0 z-50 flex items-center justify-center">
-        <div className="h-20 w-20 animate-spin rounded-full border-10 border-[#1DB954] border-t-[#212121]" />
+        <div className="h-15 w-15 animate-spin rounded-full border-5 border-[#1DB954] border-t-[#212121]" />
       </div>
     )
   };
@@ -188,9 +188,9 @@ export default function Profile() {
   if (!profile) return null;
 
   return (
-    <div className="flex flex-col gap-15 mx-40 my-25 justify-baseline">
+    <div className="flex flex-col gap-10 xl:gap-15 mx-10 my-10 sm:mx-20 xl:mx-40 xl:my-25 justify-baseline">
       {/* Profile Information */}
-      <div className="bg-[#212121] flex flex-row items-center gap-10 w-full">
+      <div className="bg-[#212121] flex flex-col md:flex-row items-center gap-10 w-full">
         {/* Profile Image */}
         {profile.imageUrl ? (
           <img
@@ -226,12 +226,12 @@ export default function Profile() {
       </div>
 
       {/* User Top Data */}
-      <div className="grid grid-cols-2 gap-20 w-full">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-20 w-full">
         {/* Top Artists */}
         <div className="flex flex-col gap-5">
           <div className="flex flex-row justify-between items-center w-full">
-            <div className="text-white font-bold text-xl">Top Artists of All Time</div>
-            <a href="/top-artists" className="text-[#B3B3B3] text-xs font-bold hover:underline cursor-pointer">Show all</a>
+            <div className="text-white font-bold text-xl">All Time Top Artists</div>
+            <a href="/top-artists" className="flex sm:hidden lg:flex text-[#B3B3B3] text-xs font-bold hover:underline cursor-pointer">Show all</a>
           </div>
           {topArtists?.slice(0, 10).map((a) => (
             <div className="flex flew-row items-center gap-5">
@@ -266,12 +266,12 @@ export default function Profile() {
         {/* Top Tracks */}
         <div className="flex flex-col gap-5">
           <div className="flex flex-row justify-between items-center w-full">
-            <div className="text-white font-bold text-xl">Top Tracks of All Time</div>
-            <a href="/top-tracks" className="text-[#B3B3B3] text-xs font-bold hover:underline cursor-pointer">Show all</a>
+            <div className="text-white font-bold text-xl">All Time Top Tracks</div>
+            <a href="/top-tracks" className="flex sm:hidden lg:flex text-[#B3B3B3] text-xs font-bold hover:underline cursor-pointer">Show all</a>
           </div>
           {topTracks?.slice(0, 10).map((t) => (
             <div className="flex justify-between items-center">
-              <div className="flex flew-row items-center gap-5">
+              <div className="flex flew-1 min-w-0 items-center gap-5">
                 {t.album_image ? (
                   <img 
                     src={t.album_image} 
@@ -283,26 +283,26 @@ export default function Profile() {
                   <div>N/A</div>
                 )}
 
-                <div className="flex flex-col gap-1">
+                <div className="flex min-w-0 flex-col gap-1">
                   <div 
-                    className="text-white text-md tracking-wide cursor-pointer hover:underline"
+                    className="min-w-0 truncate text-white text-md tracking-wide cursor-pointer hover:underline"
                     onClick={() => openTrackPopup(t.track_id)}  
                   >
                     {t.track_name}
                   </div>
-                  <div className="flex flex-row text-[8pt] items-center text-white text-xs gap-1">
+                  <div className="flex min-w-0 items-center gap-1 text-white text-xs">
                     <div
-                      className="cursor-pointer hover:underline"
+                      className="truncate cursor-pointer hover:underline"
                       onClick={() => {if (t.artist_id) openArtistPopup(t.artist_id)}}
                     >
                       {t.artist_name}
                     </div>
-                    <GoDotFill size={7}/>
-                    <div>{t.album_name}</div>
+                    <GoDotFill size={7} className="shrink-0" />
+                    <div className="min-w-0 truncate opacity-90">{t.album_name}</div>
                   </div>
                 </div>
               </div>
-              <div className="text-[#b3b3b3] font-semibold text-xs">
+              <div className="shrink-0 w-12 text-right tabular-nums text-[#b3b3b3] font-semibold text-xs">
                 {formatDuration(t.track_duration)}
               </div>
             </div>

@@ -10,31 +10,34 @@ export default function TimeRangeButtons(props: ButtonProps) {
                 onClick={() => onChange("long")}
                 className={
                     value === "long"
-                        ? "text-black text-sm font-semibold px-5 py-2 bg-[#1DB954] rounded-full transition-all duration-200"
-                        : "text-white text-sm font-semibold px-5 py-2 bg-[#535353] rounded-full opacity-70 hover:opacity-100 cursor-pointer"
+                        ? "text-black text-xs font-semibold px-5 py-2 bg-[#1DB954] rounded-full transition-all duration-200"
+                        : "text-white text-xs font-semibold px-5 py-2 bg-[#535353] rounded-full opacity-70 hover:opacity-100 cursor-pointer"
                 }
             >
-                Last 12 months
+                <div className="hidden md:block">Last 12 months</div>
+                <div className="block md:hidden">12 months</div>
             </button>
             <button
                 onClick={() => onChange("medium")}
                 className={
                     value === "medium"
-                        ? "text-black text-sm font-semibold px-5 py-2 bg-[#1DB954] rounded-full transition-all duration-200"
-                        : "text-white text-sm font-semibold px-5 py-2 bg-[#535353] rounded-full opacity-70 hover:opacity-100 cursor-pointer"
+                        ? "text-black text-xs font-semibold px-5 py-2 bg-[#1DB954] rounded-full transition-all duration-200"
+                        : "text-white text-xs font-semibold px-5 py-2 bg-[#535353] rounded-full opacity-70 hover:opacity-100 cursor-pointer"
                 }
             >
-                Last 6 months
+                <div className="hidden md:block">Last 6 months</div>
+                <div className="block md:hidden">6 months</div>
             </button>
             <button
                 onClick={() => onChange("short")}
                 className={
                     value === "short"
-                        ? "text-black text-sm font-semibold px-5 py-2 bg-[#1DB954] rounded-full transition-all duration-200"
-                        : "text-white text-sm font-semibold px-5 py-2 bg-[#535353] rounded-full opacity-70 hover:opacity-100 cursor-pointer"
+                        ? "text-black text-xs font-semibold px-5 py-2 bg-[#1DB954] rounded-full transition-all duration-200"
+                        : "text-white text-xs font-semibold px-5 py-2 bg-[#535353] rounded-full opacity-70 hover:opacity-100 cursor-pointer"
                 }
             >
-                Last 4 weeks
+                <div className="hidden md:block">Last 4 weeks</div>
+                <div className="block md:hidden">4 weeks</div>
             </button>
         </div>
     )

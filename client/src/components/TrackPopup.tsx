@@ -17,12 +17,14 @@ export default function TrackPopup({open, track, onClose}: TrackPopupProps){
                     <IoCloseOutline size={28} />
                 </button>
                 <div className="grid grid-cols-1 sm:grid-cols-[245px_1fr] items-center">
-                    <img
-                        src={track.album_image ?? undefined}
-                        alt="not image found" 
-                        className="h-52 w-52 rounded-2xl object-cover"
-                    />
-                    <div className="flex flex-col gap-2 text-center md:text-left">
+                    <div className="flex justify-center mb-5 md:mb-0 md:justify-start">
+                        <img
+                            src={track.album_image ?? undefined}
+                            alt="not image found" 
+                            className="h-52 w-52 rounded-2xl object-cover"
+                        />
+                    </div>
+                    <div className="flex flex-col gap-2 text-center sm:text-left">
                         <div className="text-white text-2xl font-extrabold">
                             {track.track_name.toLocaleUpperCase()}
                         </div>
@@ -32,13 +34,15 @@ export default function TrackPopup({open, track, onClose}: TrackPopupProps){
                         <div className="text-[#b3b3b3] text-sm font-semibold">
                             {track.album_name}
                         </div>
-                        <a
-                            href={`https://open.spotify.com/track/${track.track_id}`}
-                            className="inline-flex w-fit px-4 py-2 mt-4 rounded-3xl bg-[#1DB954] text-white text-sm font-semibold hover:scale-105 active:scale-100"
-                            target="_blank"
-                        >
-                            View on Spotify
-                        </a>
+                        <div className="flex justify-center sm:justify-start">
+                            <a
+                                href={`https://open.spotify.com/track/${track.track_id}`}
+                                className="inline-flex w-fit px-4 py-2 mt-4 rounded-3xl bg-[#1DB954] text-white text-sm font-semibold hover:scale-105 active:scale-100"
+                                target="_blank"
+                            >
+                                View on Spotify
+                            </a>
+                        </div>
                     </div>
                 </div>
                 <div className="mt-12 mb-2 grid grid-cols-1 md:grid-cols-3 gap-8 text-center w-full">

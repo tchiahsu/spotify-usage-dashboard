@@ -47,7 +47,7 @@ export default function Playlist() {
   if (loading) {
     return (
       <div className="fixed inset-0 z-50 flex items-center justify-center">
-        <div className="h-20 w-20 animate-spin rounded-full border-10 border-[#1DB954] border-t-[#212121]" />
+        <div className="h-15 w-15 animate-spin rounded-full border-5 border-[#1DB954] border-t-[#212121]" />
       </div>
     )
   };
@@ -55,15 +55,15 @@ export default function Playlist() {
   if (!playlists) return null;
 
   return (
-    <div className="flex flex-col gap-15 mx-30 my-25 justify-baseline">
+    <div className="flex flex-col gap-15 mx-10 my-10 md:mx-20 md:my-25 justify-baseline">
       {/* Page Title */}
       <div className="flex flex-col gap-3">
-        <div className="font-bold text-white text-5xl tracking-wide">Your Personal Playlists</div>
-        <div className="text-[#535353] font-semibold text-lg">All your moods, perfectly queued.</div>
+        <div className="font-bold text-white text-4xl md:text-5xl tracking-wide">Your Personal Playlists</div>
+        <div className="text-[#535353] font-semibold text-md: md:text-lg">All your moods, perfectly queued.</div>
       </div>
 
       {/* Playlist Information */}
-      <div className="grid grid-cols-5 gap-5">
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5">
         {playlists?.map((p: UserPlaylistItem) => (
           <div className="flex flex-col gap-1">
             <Link to={`/playlists/${p.playlist_id}`} className="flex flex-col gap-2">
