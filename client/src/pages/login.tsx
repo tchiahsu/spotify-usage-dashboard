@@ -7,7 +7,7 @@ export default function Login() {
     <div className="h-screen flex flex-col items-center text-center px-5 overflow-y-hidden">
       <div className="flex flex-col items-center justify-center gap-3 flex-1">
         <img src={logo} alt="spotify_logo" className="h-16 w-auto mb-7"/>
-        <p className="text-white font-bold text-6xl">
+        <p className="text-white font-bold text-3xl md:text-6xl">
           Spotify Listening History
         </p>
         <p className="text-white max-w-xl">
