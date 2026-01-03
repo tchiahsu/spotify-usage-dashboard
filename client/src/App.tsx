@@ -11,11 +11,11 @@ import './App.css'
 
 function AuthLayout() {
   return (
-    <div className="flex h-screen overflow-hidden">
-      <aside className="sticky top-0 h-screen shrink-0">
+    <div className="flex flex-col h-screen overflow-hidden md:flex-row">
+      <aside className="md:sticky md:top-0 md:h-screen shrink-0">
         <Menu />
       </aside>
-      <main className="flex-1 overflow-y-auto">
+      <main className="flex-1 overflow-y-auto pb-16 md:pb-0">
         <Outlet />
       </main>
     </div>
