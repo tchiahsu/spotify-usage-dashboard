@@ -7,15 +7,15 @@ export default function Login() {
     <div className="h-screen flex flex-col items-center text-center px-5 overflow-y-hidden">
       <div className="flex flex-col items-center justify-center gap-3 flex-1">
         <img src={logo} alt="spotify_logo" className="h-16 w-auto mb-7"/>
-        <p className="text-white font-bold text-5xl">
+        <p className="text-white font-bold text-6xl">
           Spotify Listening History
         </p>
         <p className="text-white max-w-xl">
-          Log in to retrieve the songs, artists, and moments that defined your music.
+          Log in to retrieve the songs, artists, and moments that define your music.
         </p>
         <a
           aria-label="Log in with Spotify"
-          className="px-10 py-3 rounded-3xl bg-[#1DB954] text-[#121212] font-semibold mt-3 hover:scale-105 active:scale-100"
+          className="px-8 py-3 rounded-3xl bg-[#1DB954] text-[#121212] font-bold mt-5 hover:scale-105 active:scale-100"
           href={`${BACKEND_URL}/auth/login`}
         >
           Connect Spotify
