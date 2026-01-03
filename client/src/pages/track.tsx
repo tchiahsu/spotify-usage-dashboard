@@ -8,8 +8,6 @@ import ArtistPopup from "../components/ArtistPopup";
 import TrackPopup from "../components/TrackPopup";
 import TimeRangeButtons from "../components/TimeRangeButtons";
 
-const BACKEND_URL = import.meta.env.VITE_BACKEND_ORIGIN ?? "https://spotifylisten.vercel.app/api";
-
 export default function Track() {
   const [topTracks, setTopTracks] = useState<TopTrackSummary | null>(null);
   const [loading, setLoading] = useState(true);
@@ -24,7 +22,7 @@ export default function Track() {
 
   async function getTopTracks(selectedRange: Range) {
     try {
-      const response = await fetch(`${BACKEND_URL}/track/50?range=${selectedRange}`, {
+      const response = await fetch(`api/track/50?range=${selectedRange}`, {
         method: "GET",
         credentials: "include",
       })
@@ -50,7 +48,7 @@ export default function Track() {
 
   async function openArtistPopup(artistId: string) {
     try{
-        const response = await fetch(`${BACKEND_URL}/artist/summary?id=${artistId}`, {
+        const response = await fetch(`api/artist/summary?id=${artistId}`, {
           method: "GET",
           credentials: "include",
         });
@@ -69,7 +67,7 @@ export default function Track() {
 
   async function openTrackPopup(trackId: string) {
     try{
-      const response = await fetch(`${BACKEND_URL}/track/summary?id=${trackId}`, {
+      const response = await fetch(`api/track/summary?id=${trackId}`, {
         method: "GET",
         credentials: "include",
       });

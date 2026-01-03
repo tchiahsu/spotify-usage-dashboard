@@ -10,8 +10,6 @@ import type { ArtistSummary, TopArtistSummary } from "../types/artist";
 import ArtistPopup from "../components/ArtistPopup";
 import TrackPopup from "../components/TrackPopup";
 
-const BACKEND_URL = import.meta.env.VITE_BACKEND_ORIGIN ?? "https://spotifylisten.vercel.app/api";
-
 export default function Profile() {
   const [profile, setProfile] = useState<ProfileSummary | null>(null);
   const [topArtists, setTopArtists] = useState<TopArtistSummary | null>(null);
@@ -28,7 +26,7 @@ export default function Profile() {
 
   async function getProfileInfo() {
     try {
-      const response = await fetch(`${BACKEND_URL}/profile/summary`, {
+      const response = await fetch(`api/profile/summary`, {
         method: "GET",
         credentials: "include",
       });
@@ -54,7 +52,7 @@ export default function Profile() {
 
   async function getUserPlaylists() {
     try {
-      const response = await fetch(`${BACKEND_URL}/profile/playlist`, {
+      const response = await fetch(`api/profile/playlist`, {
         method: "GET",
         credentials: "include",
       });
@@ -80,7 +78,7 @@ export default function Profile() {
 
   async function getTopArtists() {
     try {
-      const response = await fetch(`${BACKEND_URL}/artist/50`, {
+      const response = await fetch(`api/artist/50`, {
         method: "GET",
         credentials: "include",
       });
@@ -107,7 +105,7 @@ export default function Profile() {
 
   async function getTopTracks() {
     try {
-      const response = await fetch(`${BACKEND_URL}/track/50`, {
+      const response = await fetch(`api/track/50`, {
         method: "GET",
         credentials: "include",
       })
@@ -134,7 +132,7 @@ export default function Profile() {
 
   async function openArtistPopup(artistId: string) {
     try{
-      const response = await fetch(`${BACKEND_URL}/artist/summary?id=${artistId}`, {
+      const response = await fetch(`api/artist/summary?id=${artistId}`, {
         method: "GET",
         credentials: "include",
       });
@@ -153,7 +151,7 @@ export default function Profile() {
 
   async function openTrackPopup(trackId: string) {
     try{
-      const response = await fetch(`${BACKEND_URL}/track/summary?id=${trackId}`, {
+      const response = await fetch(`api/track/summary?id=${trackId}`, {
         method: "GET",
         credentials: "include",
       });

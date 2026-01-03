@@ -4,8 +4,6 @@ import { GoDotFill } from "react-icons/go";
 
 import type { UserPlaylistItem, UserPlaylistsSummary } from "../types/playlist";
 
-const BACKEND_URL = import.meta.env.VITE_BACKEND_ORIGIN ?? "https://spotifylisten.vercel.app/api";
-
 export default function Playlist() {
   const [playlists, setPlaylists] = useState<UserPlaylistsSummary | null>(null);
   const [loading, setLoading] = useState(true);
@@ -15,7 +13,7 @@ export default function Playlist() {
 
   async function getUserPlaylists() {
       try {
-        const response = await fetch(`${BACKEND_URL}/profile/playlist`, {
+        const response = await fetch(`api/profile/playlist`, {
           method: "GET",
           credentials: "include",
         });

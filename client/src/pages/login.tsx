@@ -1,7 +1,5 @@
 import logo from "../assets/spotify_white.png";
 
-const BACKEND_URL = import.meta.env.VITE_BACKEND_ORIGIN ?? "https://spotifylisten.vercel.app/api";
-
 export default function Login() {
   return (
     <div className="h-screen flex flex-col items-center text-center px-5 overflow-y-hidden">
@@ -16,7 +14,7 @@ export default function Login() {
         <a
           aria-label="Log in with Spotify"
           className="px-8 py-3 rounded-3xl bg-[#1DB954] text-[#121212] font-bold mt-5 hover:scale-105 active:scale-100"
-          href={`${BACKEND_URL}/auth/login`}
+          href={`api/auth/login`}
         >
           Connect Spotify
         </a>

@@ -6,8 +6,6 @@ import type { Range } from "../types/time_range";
 import ArtistPopup from "../components/ArtistPopup";
 import TimeRangeButtons from "../components/TimeRangeButtons";
 
-const BACKEND_URL = import.meta.env.VITE_BACKEND_ORIGIN ?? "https://spotifylisten.vercel.app/api";
-
 export default function Artists() {
   const [topArtists, setTopArtists] = useState<TopArtistSummary | null>(null);
   const [loading, setLoading] = useState(true);
@@ -20,7 +18,7 @@ export default function Artists() {
 
   async function getTopArtists(selectedRange: Range) {
       try {
-        const response = await fetch(`${BACKEND_URL}/artist/50?range=${selectedRange}`, {
+        const response = await fetch(`/api/artist/50?range=${selectedRange}`, {
           method: "GET",
           credentials: "include",
         });
@@ -46,7 +44,7 @@ export default function Artists() {
 
   async function openArtistPopup(artistId: string) {
     try{
-      const response = await fetch(`${BACKEND_URL}/artist/summary?id=${artistId}`, {
+      const response = await fetch(`/api/artist/summary?id=${artistId}`, {
         method: "GET",
         credentials: "include",
       });

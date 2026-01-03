@@ -8,8 +8,6 @@ import type { TrackSummary } from "../types/track";
 import ArtistPopup from "../components/ArtistPopup";
 import TrackPopup from "../components/TrackPopup";
 
-const BACKEND_URL = import.meta.env.VITE_BACKEND_ORIGIN ?? "https://spotifylisten.vercel.app/api";
-
 export default function Recent() {
   const [recentTracks, setRecentTracks] = useState<RecentTrackSummary | null>(null);
   const [loading, setLoading] = useState(true);
@@ -23,7 +21,7 @@ export default function Recent() {
 
   async function getRecentTracks() {
     try {
-      const response = await fetch(`${BACKEND_URL}/profile/recent/50`, {
+      const response = await fetch(`api/profile/recent/50`, {
         method: "GET",
         credentials: "include",
       })
@@ -49,7 +47,7 @@ export default function Recent() {
 
   async function openArtistPopup(artistId: string) {
     try{
-      const response = await fetch(`${BACKEND_URL}/artist/summary?id=${artistId}`, {
+      const response = await fetch(`api/artist/summary?id=${artistId}`, {
         method: "GET",
         credentials: "include",
       });
@@ -68,7 +66,7 @@ export default function Recent() {
 
   async function openTrackPopup(trackId: string) {
     try{
-      const response = await fetch(`${BACKEND_URL}/track/summary?id=${trackId}`, {
+      const response = await fetch(`api/track/summary?id=${trackId}`, {
         method: "GET",
         credentials: "include",
       });

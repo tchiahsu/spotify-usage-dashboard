@@ -8,8 +8,6 @@ import type { TrackSummary } from "../types/track";
 import ArtistPopup from "../components/ArtistPopup";
 import TrackPopup from "../components/TrackPopup";
 
-const BACKEND_URL = import.meta.env.VITE_BACKEND_ORIGIN ?? "https://spotifylisten.vercel.app/api";
-
 export default function SinglePlaylist() {
   const { playlistId } = useParams<{ playlistId: string }>();
   const [playlists, setPlaylists] = useState<UserPlaylistsSummary | null>(null);
@@ -27,7 +25,7 @@ export default function SinglePlaylist() {
   async function getUserPlaylists() {
     try {
       setLoadingPlaylists(true);
-      const response = await fetch(`${BACKEND_URL}/profile/playlist`, {
+      const response = await fetch(`api/profile/playlist`, {
         method: "GET",
         credentials: "include",
       });
@@ -56,7 +54,7 @@ export default function SinglePlaylist() {
       setLoadingTracks(true);
       setError(null);
 
-      const response = await fetch(`${BACKEND_URL}/playlist/tracks?id=${encodeURIComponent(playlistId)}`, {
+      const response = await fetch(`api/playlist/tracks?id=${encodeURIComponent(playlistId)}`, {
         method: "GET",
         credentials: "include",
       });
@@ -82,7 +80,7 @@ export default function SinglePlaylist() {
 
   async function openArtistPopup(artistId: string) {
     try{
-        const response = await fetch(`${BACKEND_URL}/artist/summary?id=${artistId}`, {
+        const response = await fetch(`api/artist/summary?id=${artistId}`, {
           method: "GET",
           credentials: "include",
         });
@@ -101,7 +99,7 @@ export default function SinglePlaylist() {
 
   async function openTrackPopup(trackId: string) {
     try{
-      const response = await fetch(`${BACKEND_URL}/track/summary?id=${trackId}`, {
+      const response = await fetch(`api/track/summary?id=${trackId}`, {
         method: "GET",
         credentials: "include",
       });
