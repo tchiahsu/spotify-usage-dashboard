@@ -8,6 +8,8 @@
 
 A full-stack web application that lets users authenticate with Spotify and view personalized profile data through a clean web interface.
 
+⚠️ **Disclaimer**: This applicaiton uses cookies. Do not run it in icognito mode since its handles cookies differenlty.
+
 **Architecture overview**  
 The backend handles Spotify OAuth and serves the authenticated data to the frontend.
 
