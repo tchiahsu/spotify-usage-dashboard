@@ -7,7 +7,7 @@ const CLIENT_ID = process.env.CLIENT_ID!;
 const CLIENT_SECRET = process.env.CLIENT_SECRET!;
 const REDIRECT_URI = process.env.REDIRECT_URI!;
 const FRONTEND_ORIGIN = process.env.FRONTEND_ORIGIN ?? "http://127.0.0.1:5173";
-const isProd = process.env.NODE_ENV === "production";
+const isHttps = FRONTEND_ORIGIN.startsWith("https://");
 
 const SCOPES = [
   "user-read-private",
@@ -33,8 +33,8 @@ router.get("/login", (req, res) => {
 
   res.cookie("spotify_auth_state", state, {
     httpOnly: true,
-    sameSite: "none",
-    secure: isProd,
+    sameSite: isHttps ? "none" : "lax",
+    secure: isHttps,
     maxAge: 10 * 60 * 1000, // 10 minutes
     path: "/",
   });
@@ -106,8 +106,8 @@ router.get("/callback", async (req, res) => {
     // Access token
     res.cookie("spotify_access_token", access_token, {
       httpOnly: true,
-      sameSite: "none",
-      secure: isProd,
+      sameSite: isHttps ? "none" : "lax",
+      secure: isHttps,
       maxAge: expires_in * 1000,
       path: "/",
     });
@@ -116,8 +116,8 @@ router.get("/callback", async (req, res) => {
     if (refresh_token) {
       res.cookie("spotify_refresh_token", refresh_token, {
         httpOnly: true,
-        sameSite: "none",
-        secure: isProd,
+        sameSite: isHttps ? "none" : "lax",
+        secure: isHttps,
         maxAge: 30 * 24 * 60 * 60 * 1000,
         path: "/",
       });
@@ -137,8 +137,8 @@ router.post("/logout", (_, res) => {
 
   const clearOpts = {
     path: "/",
-    sameSite: "none" as const,
-    secure: isProd,
+    sameSite: isHttps ? "none" as const : "lax" as const,
+    secure: isHttps,
   };
 
   res.clearCookie("spotify_auth_state", clearOpts);
