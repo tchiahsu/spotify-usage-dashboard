@@ -24,8 +24,11 @@ app.use(
 )
 
 // Routes
-app.use("/auth", authRouter);
+app.use("/auth", authRouter)
 app.use("/", router)
+
+// Railway proxy
+app.set("trust proxy", 1)
 
 // Start Server
 app.listen(PORT, "0.0.0.0", () => {
