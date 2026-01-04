@@ -148,13 +148,4 @@ router.post("/logout", (_, res) => {
   res.json({ ok: true });
 })
 
-router.get("/debug-cookies", (req, res) => {
-  res.json({
-    cookieHeader: req.headers.cookie ?? null,
-    hasAccess: Boolean(req.cookies.spotify_access_token),
-    hasRefresh: Boolean(req.cookies.spotify_refresh_token),
-  });
-});
-
-
 export default router;
