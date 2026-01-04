@@ -8,7 +8,7 @@ import router from "./api/routes.js";
 const app = express();
 
 const PORT = Number(process.env.PORT) || 8080;
-const FRONTEND_ORIGIN = process.env.FRONTEND_ORIGIN ?? "http://127.0.0.1:5173";
+const FRONTEND_ORIGIN = process.env.FRONTEND_ORIGIN;
 
 // Middleware
 app.use(express.json())
