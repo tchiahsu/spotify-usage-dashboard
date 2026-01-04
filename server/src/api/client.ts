@@ -44,10 +44,12 @@ export async function getProfileSummary(req: Request, res: Response) {
 
       const { access_token, expires_in } = refreshed.data;
 
+      const isSecureRequest = req.secure || req.headers["x-forwarded-proto"] === "https";
+
       res.cookie("spotify_access_token", access_token, {
         httpOnly: true,
-        sameSite: "lax",
-        secure: false,
+        sameSite: isSecureRequest ? ("none" as const) : ("lax" as const),
+        secure: isSecureRequest,
         maxAge: expires_in * 1000,
         path: "/"
       });
@@ -111,10 +113,12 @@ export async function getTopArtist(req: Request, res: Response) {
 
       const { access_token, expires_in } = refreshed.data;
 
+      const isSecureRequest = req.secure || req.headers["x-forwarded-proto"] === "https";
+
       res.cookie("spotify_access_token", access_token, {
         httpOnly: true,
-        sameSite: "lax",
-        secure: false,
+        sameSite: isSecureRequest ? ("none" as const) : ("lax" as const),
+        secure: isSecureRequest,
         maxAge: expires_in * 1000,
         path: "/"
       });
@@ -178,10 +182,12 @@ export async function getTopTracks(req: Request, res: Response) {
 
       const { access_token, expires_in } = refreshed.data;
 
+      const isSecureRequest = req.secure || req.headers["x-forwarded-proto"] === "https";
+
       res.cookie("spotify_access_token", access_token, {
         httpOnly: true,
-        sameSite: "lax",
-        secure: false,
+        sameSite: isSecureRequest ? ("none" as const) : ("lax" as const),
+        secure: isSecureRequest,
         maxAge: expires_in * 1000,
         path: "/"
       });
@@ -252,10 +258,12 @@ export async function getRecentlyPlayed(req: Request, res: Response) {
 
       const { access_token, expires_in } = refreshed.data;
 
+      const isSecureRequest = req.secure || req.headers["x-forwarded-proto"] === "https";
+
       res.cookie("spotify_access_token", access_token, {
         httpOnly: true,
-        sameSite: "lax",
-        secure: false,
+        sameSite: isSecureRequest ? ("none" as const) : ("lax" as const),
+        secure: isSecureRequest,
         maxAge: expires_in * 1000,
         path: "/"
       });
@@ -330,10 +338,12 @@ export async function getArtistDetails(req: Request, res: Response) {
 
       const { access_token, expires_in } = refreshed.data;
 
+      const isSecureRequest = req.secure || req.headers["x-forwarded-proto"] === "https";
+
       res.cookie("spotify_access_token", access_token, {
         httpOnly: true,
-        sameSite: "lax",
-        secure: false,
+        sameSite: isSecureRequest ? ("none" as const) : ("lax" as const),
+        secure: isSecureRequest,
         maxAge: expires_in * 1000,
         path: "/"
       });
@@ -407,10 +417,12 @@ export async function getTrackDetails(req: Request, res: Response) {
 
       const { access_token, expires_in } = refreshed.data;
 
+      const isSecureRequest = req.secure || req.headers["x-forwarded-proto"] === "https";
+
       res.cookie("spotify_access_token", access_token, {
         httpOnly: true,
-        sameSite: "lax",
-        secure: false,
+        sameSite: isSecureRequest ? ("none" as const) : ("lax" as const),
+        secure: isSecureRequest,
         maxAge: expires_in * 1000,
         path: "/"
       });
@@ -482,10 +494,12 @@ export async function getUserPlaylist(req: Request, res: Response) {
 
       const { access_token, expires_in } = refreshed.data;
 
+      const isSecureRequest = req.secure || req.headers["x-forwarded-proto"] === "https";
+
       res.cookie("spotify_access_token", access_token, {
         httpOnly: true,
-        sameSite: "lax",
-        secure: false,
+        sameSite: isSecureRequest ? ("none" as const) : ("lax" as const),
+        secure: isSecureRequest,
         maxAge: expires_in * 1000,
         path: "/"
       });
@@ -556,10 +570,12 @@ export async function getPlaylistDetails(req: Request, res: Response) {
 
       const { access_token, expires_in } = refreshed.data;
 
+      const isSecureRequest = req.secure || req.headers["x-forwarded-proto"] === "https";
+
       res.cookie("spotify_access_token", access_token, {
         httpOnly: true,
-        sameSite: "lax",
-        secure: false,
+        sameSite: isSecureRequest ? ("none" as const) : ("lax" as const),
+        secure: isSecureRequest,
         maxAge: expires_in * 1000,
         path: "/"
       });
@@ -632,10 +648,12 @@ export async function getPlaylistTracks(req: Request, res: Response) {
 
       const { access_token, expires_in } = refreshed.data;
 
+      const isSecureRequest = req.secure || req.headers["x-forwarded-proto"] === "https";
+
       res.cookie("spotify_access_token", access_token, {
         httpOnly: true,
-        sameSite: "lax",
-        secure: false,
+        sameSite: isSecureRequest ? ("none" as const) : ("lax" as const),
+        secure: isSecureRequest,
         maxAge: expires_in * 1000,
         path: "/"
       });

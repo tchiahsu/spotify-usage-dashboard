@@ -23,6 +23,13 @@ export const router = Router();
  */
 router.get("/profile/summary", getProfileSummary)
 
+router.get("/echo-cookies", (req, res) => {
+  res.json({
+    cookieHeader: req.headers.cookie ?? null,
+    cookies: req.cookies ?? null,
+  });
+});
+
 /**
  * GET /artist/top-50
  * Info: top artists in the long term (50) - name, image, followers
