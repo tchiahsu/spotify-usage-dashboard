@@ -95,7 +95,6 @@ export default function Profile() {
       }
 
       const data: TopArtistSummary = await response.json();
-      console.log("top artists: ", data)
       setTopArtists(data);
     } catch (e) {
       console.error(e);
@@ -122,7 +121,6 @@ export default function Profile() {
       }
 
       const data: TopTrackSummary = await response.json();
-      console.log("top tracks: ", data)
       setTopTracks(data);
     } catch (e) {
       console.error(e);

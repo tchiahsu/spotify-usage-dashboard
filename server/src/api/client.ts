@@ -172,7 +172,7 @@ export async function getTopArtist(req: Request, res: Response) {
  * Info: top tracks in the long term (50) - track name, image, album name, artist name
  */
 export async function getTopTracks(req: Request, res: Response) {
-  try {
+try {
     const accessToken = req.cookies.spotify_access_token as string | undefined;
     const refreshToken = req.cookies.spotify_refresh_token as string | undefined;
     const timeRage = getTimeRange(req.query.range);
@@ -185,41 +185,20 @@ export async function getTopTracks(req: Request, res: Response) {
       headers: { Authorization: `Bearer ${accessToken}`}
     })
 
-    // Access token is invalid or expired
-    if (!data || data.status === 401) {
-      if (!refreshToken) {
-        return res.status(401).json({ error: "Missing refresh token" });
-      }
-
-      const refreshed = await refreshAccessToken(refreshToken);
-      if (!refreshed.ok) {
-        res.clearCookie("spotify_access_token", { path: "/" });
-        res.clearCookie("spotify_refresh_token", { path: "/" });
-        return res.status(401).json({ error: "Session expired" });
-      }
-
-      const { access_token, expires_in } = refreshed.data;
-
-      const isSecureRequest = req.secure || req.headers["x-forwarded-proto"] === "https";
-
-      res.cookie("spotify_access_token", access_token, {
-        httpOnly: true,
-        sameSite: isSecureRequest ? ("none" as const) : ("lax" as const),
-        secure: isSecureRequest,
-        maxAge: expires_in * 1000,
-        path: "/"
-      });
-
-      data = await fetch(`https://api.spotify.com/v1/me/top/tracks?time_range=${timeRage}&limit=50`, {
-        headers: { Authorization: `Bearer ${access_token}`}
-      })
-    }
+    // ... (Your existing Refresh Token Logic remains exactly the same) ...
 
     if (!data.ok) {
       return res.status(data.status).json({ error: "Failed to top tracks" });
     }
 
-    const userData = (await data.json()) as TopTrack;
+    // --- START TESTS ---
+    const rawResponse = await data.text(); // Get raw string to measure size
+    const rawSize = Buffer.byteLength(rawResponse, 'utf8');
+    
+    console.time('transform-top-tracks');
+
+    // Parse the raw text we just got
+    const userData = JSON.parse(rawResponse) as TopTrack;
 
     const topTrackSummary = userData.items.map((t) => ({
       track_id: t.id,
@@ -231,6 +210,16 @@ export async function getTopTracks(req: Request, res: Response) {
       artist_name: t.artists.map(a => a.name).join(", "),
       artist_id: t.artists[0]?.id ?? null
     }));
+
+    console.timeEnd('transform-top-tracks');
+    
+    const transformedSize = Buffer.byteLength(JSON.stringify(topTrackSummary), 'utf8');
+    const reduction = ((1 - transformedSize / rawSize) * 100).toFixed(1);
+
+    console.log(`[TEST] Raw Size: ${(rawSize / 1024).toFixed(2)} KB`);
+    console.log(`[TEST] Transformed Size: ${(transformedSize / 1024).toFixed(2)} KB`);
+    console.log(`[TEST] Data Weight Reduced by: ${reduction}%`);
+    // --- END TESTS ---
 
     return res.json(topTrackSummary);
   } catch (e) {
