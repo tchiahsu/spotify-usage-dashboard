@@ -29,7 +29,7 @@ export default function Login() {
               To skip the hassle, check out the demo video on the on the screen to see the app in action.
             </p>
           </div>
-          <div className="flex flex-row gap-5 sm:mt-5 mb-10 lg:mb-0 text-center">
+          <div className="flex flex-row gap-5 sm:mt-5 mb-5 lg:mb-0 text-center">
             <a
               aria-label="Log in with Spotify"
               className="px-8 py-3 rounded-3xl bg-[#1DB954] text-[#121212] font-bold mt-5 hover:scale-105 active:scale-100"

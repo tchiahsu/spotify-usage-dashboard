@@ -20,7 +20,7 @@ export default function ContactForm() {
   return (
     <form
       onSubmit={onSubmit}
-      className="flex flex-col justify-center items-center gap-5 w-full"
+      className="flex flex-col justify-center items-center gap-5 w-full -my-4 mb-2 md:mb-0"
     >
       <div className="flex flex-row gap-3 mt-5 w-full justify-center">
         <input
