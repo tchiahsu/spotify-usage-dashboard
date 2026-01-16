@@ -19,6 +19,17 @@ const SCOPES = [
   "playlist-read-collaborative",
 ].join(" ");
 
+const stateStore = new Map<string, number>();
+
+// Remove expires states each minutes
+setInterval(() => {
+  const now = Date.now();
+  for (const [state, createdAt] of stateStore) {
+    if (now - createdAt > 10 * 60 * 1000) {
+      stateStore.delete(state);
+    }
+  }
+}, 60 * 1000);
 
 function generateRandomString(bytes: number) {
   return crypto.randomBytes(bytes).toString("hex");
@@ -30,14 +41,7 @@ function generateRandomString(bytes: number) {
  */
 router.get("/login", (req, res) => {
   const state = generateRandomString(16);
-
-  res.cookie("spotify_auth_state", state, {
-    httpOnly: true,
-    sameSite: isHttps ? "none" : "lax",
-    secure: isHttps,
-    maxAge: 10 * 60 * 1000, // 10 minutes
-    path: "/",
-  });
+  stateStore.set(state, Date.now());
 
   const params = new URLSearchParams({
     client_id: CLIENT_ID,
@@ -61,9 +65,10 @@ router.get("/callback", async (req, res) => {
 
   const storedState = req.cookies.spotify_auth_state;
 
-  if (!state || !storedState || state !== storedState) {
+  if (!state || !stateStore.has(state)) {
     return res.redirect(`${FRONTEND_ORIGIN}/?error=state_mismatch`);
   }
+  stateStore.delete(state);
 
   if (!code) {
     return res.redirect(`${FRONTEND_ORIGIN}/?error=missing_code`);
