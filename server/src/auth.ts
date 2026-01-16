@@ -43,6 +43,11 @@ router.get("/login", (req, res) => {
   const state = generateRandomString(16);
   stateStore.set(state, Date.now());
 
+  console.log("=== Login Debug ===");
+  console.log("Generated state:", state);
+  console.log("Store size:", stateStore.size);
+  console.log("===================");
+
   const params = new URLSearchParams({
     client_id: CLIENT_ID,
     response_type: "code",
@@ -63,7 +68,13 @@ router.get("/callback", async (req, res) => {
   const code = typeof req.query.code === "string" ? req.query.code : null;
   const state = typeof req.query.state === "string" ? req.query.state : null;
 
-  const storedState = req.cookies.spotify_auth_state;
+  // Debug logging
+  console.log("=== Callback Debug ===");
+  console.log("State from URL:", state);
+  console.log("States in store:", [...stateStore.keys()]);
+  console.log("State exists in store:", state ? stateStore.has(state) : false);
+  console.log("Cookies received:", req.cookies);
+  console.log("====================");
 
   if (!state || !stateStore.has(state)) {
     return res.redirect(`${FRONTEND_ORIGIN}/?error=state_mismatch`);
