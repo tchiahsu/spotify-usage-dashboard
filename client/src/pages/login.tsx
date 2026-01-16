@@ -18,15 +18,15 @@ export default function Login() {
           </p>
           <div className="flex flex-col w-full items-start gap-5">
             <p className="text-white text-md">
-              Due to recent Spotify Web API policy changes, only whitelisted account can log in
+              Due to recent Spotify Web API policy changes, only whitelisted accounts can log in
               to this application. If you'd like to explore your personal listening stats, you can
-              request access below and I'll add you as soon as possible.
+              request access below and we'll add you as soon as possible.
             </p>
             <p className="text-[#1DB954] text-md font-semibold">
-              Already whitelisted? Connect your Spotify account below.
+              Already whitelisted? Connect to your Spotify account below.
             </p>
             <p className="text-white text-md font-bold">
-              To skip the hassle, check out the demo video on the on the screen to see the app in action.
+              To skip the hassle, check out the demo video to see the app in action.
             </p>
           </div>
           <div className="flex flex-row gap-5 sm:mt-5 mb-5 lg:mb-0 text-center">
